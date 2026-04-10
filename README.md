@@ -119,7 +119,7 @@ HL2 (5W) → Pre-drive amplifier (~60W) → Final tube amplifier (~700W) → LDG
 
 **Signal flow control:**
 - **RX** → J6 Out5 floating = both amplifiers in receive mode
-- **TX normal (MOX)** → J6 Out5 grounded = both amplifiers in transmit mode, this permit full output power for normal operation
+- **TX normal (MOX)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow full output power for normal operation
 - **Tune mode (TUNE)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow to peak final amplifier at lower power
 - **Automatic Tuning (CTRL+TUNE)** → Out5 floating = final amplifier bypassed, pre-drive only (10-15W for LDG tuning)
 
@@ -136,9 +136,16 @@ Thetis seems to stop RF transmission after approximately 7-8 seconds during CTRL
 regardless of the tuning state. This may prevent successful tuning if the LDG
 requires more time to complete the tuning sequence.
 
-**Workaround:** None currently available - waiting for Thetis fix.
+**Workaround:** For automatic tuning >7s, none currently available - waiting for Thetis fix.
+
 **Status:** Reported to MI0BOT (Reid) - Issue #127
 https://github.com/mi0bot/OpenHPSDR-Thetis/issues/127
+
+**Manual Workaround:** For manual tuning >7s
+1. Manually bypass final amplifier connected on J6 Out5
+2. Hit TUN on Thetis, this should provide 10-15W for unlimited time
+3. Hold "TUNE" on LDG tuner for >250ms, tuner will start up to 15s
+4. Once tune achieve, turn off TUN on Thetis software and reengage final amplifier on J6 Out5
 
 ## Credits
 
