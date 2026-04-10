@@ -40,10 +40,8 @@ across the relay coil to protect the IO Board low-side switch (TBD62381).
 A 1N4148 or 1N4001 diode across the relay coil is sufficient.
 See [IO Board documentation](https://github.com/jimahlstrom/HL2IOBoard) for details.
 
-⚠️ **WARNING: DO NOT connect START to J4 pin 6** as per the original code instructed
-
-⚠️ **WARNING: DO NOT connect START to J4 pin 6** — J4 is an active 5V output that will 
-block the LDG tuner. Use J6 pin 6 (low-side switch) only.
+⚠️ **WARNING: DO NOT connect START to J4 pin 6** — as per the original code instructed - 
+J4 is an active 5V output that will block the LDG tuner. Use J6 pin 6 (low-side switch) only.
 
 ⚠️ **WARNING: DO NOT power the LDG tuner from the IO Board 12V switched line** — use an 
 external 12V power supply only.
