@@ -117,17 +117,17 @@ This firmware was developed and tested with the following station setup:
 
 HL2 (5W) → Pre-drive amplifier (~60W) → Final tube amplifier (~700W) → LDG AT-1000 Pro II → Antenna
 
+The pre-drive amplifier is controlled directly by the HL2 RCA PTT jack.
+The final tube amplifier is controlled by J6 Out5 on the IO Board.
+
+This setup ensures the LDG receives only 10-15 watts during automatic tuning,
+protecting both the LDG tuner and the final amplifier from high SWR or over power conditions.
+
 **Signal flow control:**
 - **RX** → J6 Out5 floating = both amplifiers in receive mode
 - **TX normal (MOX)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow full output power for normal operation
 - **Tune mode (TUNE)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow to peak final amplifier at lower power
 - **Automatic Tuning (CTRL+TUNE)** → Out5 floating = final amplifier bypassed, pre-drive only (10-15W for LDG tuning)
-
-The pre-drive amplifier is controlled directly by the HL2 RCA PTT jack.
-The final tube amplifier is controlled by J6 Out5 on the IO Board.
-
-This setup ensures the LDG receives only 10-15 watts during automatic tuning,
-protecting both the LDG tuner and the final amplifier from high SWR conditions.
 
 ## Known Limitations
 
