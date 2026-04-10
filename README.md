@@ -30,7 +30,7 @@ Only `main.c` and `icom_ah4.c` have been modified.
 | LDG Cable | IO Board |
 |-----------|----------|
 | START (ring) | J6 pin 6 (GPIO22_Out6 low-side switch) |
-| KEY (tip) | J8 pin 2 (GPIO18_In2) + 4.7K ohm pull-up to 3.3V |
+| KEY (tip) | J8 pin 2 (GPIO18_In2) + 4.7K ohm pull-up to 3.3V (3V2 on IO board) |
 | GND (sleeve) | GND (G1 or G2 on IO Board) |
 | POWER (+12V) | External 12V power supply only - DO NOT use IO Board switched 12V line |
 
