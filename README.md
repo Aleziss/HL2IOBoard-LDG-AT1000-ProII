@@ -34,6 +34,14 @@ Only `main.c` and `icom_ah4.c` have been modified.
 | GND (sleeve) | GND (G1 or G2 on IO Board) |
 | POWER (+12V) | External 12V power supply only - DO NOT use IO Board switched 12V line |
 
+⚠️ **WARNING: Inductive loads on J6 Out5**
+If your amplifier uses relay coils on the KEY/PTT line, you MUST place a flyback diode 
+across the relay coil to protect the IO Board low-side switch (TBD62381).
+A 1N4148 or 1N4001 diode across the relay coil is sufficient.
+See [IO Board documentation](https://github.com/jimahlstrom/HL2IOBoard) for details.
+
+⚠️ **WARNING: DO NOT connect START to J4 pin 6** as per the original code instructed
+
 ⚠️ **WARNING: DO NOT connect START to J4 pin 6** — J4 is an active 5V output that will 
 block the LDG tuner. Use J6 pin 6 (low-side switch) only.
 
@@ -104,6 +112,24 @@ Out5 (J6 pin 5) controls an external amplifier:
 | 0xFA | KEY not high at start - check wiring and pull-up resistor |
 | 0xFB | Timeout - KEY never went low after START released |
 | 0xFD | Safety timeout - tuning exceeded 15 seconds |
+
+## Example Setup (VA2CST)
+
+This firmware was developed and tested with the following station setup:
+
+HL2 (5W) → Pre-drive amplifier (~60W) → Final tube amplifier (~700W) → LDG AT-1000 Pro II → Antenna
+
+**Signal flow control:**
+- **RX** → J6 Out5 floating = both amplifiers in receive mode
+- **TX normal (MOX)** → J6 Out5 grounded = both amplifiers in transmit mode, this permit full output power for normal operation
+- **Tune mode (TUNE)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow to peak final amplifier at lower power
+- **Automatic Tuning (CTRL+TUNE)** → Out5 floating = final amplifier bypassed, pre-drive only (10-15W for LDG tuning)
+
+The pre-drive amplifier is controlled directly by the HL2 RCA PTT jack.
+The final tube amplifier is controlled by J6 Out5 on the IO Board.
+
+This setup ensures the LDG receives only 10-15 watts during automatic tuning,
+protecting both the LDG tuner and the final amplifier from high SWR conditions.
 
 ## Credits
 
