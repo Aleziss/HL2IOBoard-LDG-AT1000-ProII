@@ -51,12 +51,28 @@ The LDG AT-1000 Pro II behaves differently from the standard Icom AH-4 protocol:
 5. LDG tunes the antenna and pulls KEY high when complete
 6. Pico stops RF transmission
 
+## Important Behavior Notes
+
+### Tuning Success vs Error Detection
+The LDG AT-1000 Pro II does not send an error code on the KEY line when tuning fails.
+The IO Board cannot distinguish between a successful tune and a failed tune - in both cases
+KEY returns high and the IO Board stops RF transmission (returns 0x00).
+If tuning fails (insufficient RF, antenna too far out of range, etc.), the LDG will simply
+abort and return to its previous state without any error indication to the IO Board.
+
+### Thetis Power Settings (v2.10.3.12)
+⚠️ **"Use Tune Slider"** does not work correctly with CTRL+TUNE in Thetis v2.10.3.12 —
+it uses full DRIVE power (0dB) instead of the tune slider level.
+
+✅ **Recommended: Use "Use Fixed Drive"** in Setup → Transmit → Tune and set a fixed 
+drive level to achieve 10-15 watts output for reliable LDG tuning.
+
 ## Amplifier Control
 
 Out5 (J6 pin 5) controls an external amplifier:
 - **TX normal** → Out5 HIGH (amplifier active)
 - **RX** → Out5 LOW (amplifier bypassed)
-- **During tuning** → Out5 LOW (amplifier bypassed to protect against high SWR)
+- **During tuning** → Out5 LOW (amplifier bypassed - LDG requires 10-15 watts for tuning, excessive power could damage the tuner or prevent successful tuning)
 
 ## Installation
 
