@@ -132,7 +132,7 @@ protecting both the LDG tuner and the final amplifier from high SWR conditions.
 ## Known Limitations
 
 ### Thetis RF Timeout (v2.10.3.12)
-Thetis seems to stops RF transmission after approximately 7-8 seconds during CTRL+TUNE,
+Thetis seems to stop RF transmission after approximately 7-8 seconds during CTRL+TUNE,
 regardless of the tuning state. This may prevent successful tuning if the LDG
 requires more time to complete the tuning sequence.
 
