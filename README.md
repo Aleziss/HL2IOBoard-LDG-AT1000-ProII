@@ -129,6 +129,17 @@ The final tube amplifier is controlled by J6 Out5 on the IO Board.
 This setup ensures the LDG receives only 10-15 watts during automatic tuning,
 protecting both the LDG tuner and the final amplifier from high SWR conditions.
 
+## Known Limitations
+
+### Thetis RF Timeout (v2.10.3.12)
+Thetis seems to stops RF transmission after approximately 7-8 seconds during CTRL+TUNE,
+regardless of the tuning state. This may prevent successful tuning if the LDG
+requires more time to complete the tuning sequence.
+
+**Workaround:** None currently available - waiting for Thetis fix.
+**Status:** Reported to MI0BOT (Reid) - Issue #127
+https://github.com/mi0bot/OpenHPSDR-Thetis/issues/127
+
 ## Credits
 
 - Original IO Board firmware by Jim Ahlstrom N2ADR - https://github.com/jimahlstrom/HL2IOBoard
