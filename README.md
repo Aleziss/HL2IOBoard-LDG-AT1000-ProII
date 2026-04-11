@@ -117,7 +117,7 @@ This firmware was developed and tested with the following station setup:
 
 HL2 (5W) → Pre-drive amplifier (~60W) → Final tube amplifier (~700W) → LDG AT-1000 Pro II → Antenna
 
-The pre-drive amplifier is controlled directly by the HL2 RCA PTT jack.
+The pre-drive amplifier is controlled directly by the HL2 EXTTR RCA jack.
 The final tube amplifier is controlled by J6 Out5 on the IO Board.
 
 This setup ensures the LDG receives only 10-15 watts during automatic tuning,
