@@ -131,7 +131,7 @@ protecting both the LDG tuner and the final amplifier from high SWR or over powe
 
 ## YouTube Video Demonstration
 
-You can see [HERE](https://youtu.be/yxHAFSqGRB4?si=Kt_dsn5d8tTB3oXX) a crude video demonstration of the system working.
+You can see [HERE](https://youtu.be/ttHCVzRcAcU) a crude video demonstration of the system working.
 
 ## Known Limitations
 
