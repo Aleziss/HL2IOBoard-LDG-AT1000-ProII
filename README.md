@@ -67,7 +67,7 @@ If tuning fails (insufficient RF, antenna too far out of range, etc.), the LDG w
 abort and return to its previous state without any error indication to the IO Board.
 
 ### Thetis Power Settings (v2.10.3.12)
-⚠️ **"Use Tune Slider"** does not work correctly with CTRL+TUNE in Thetis v2.10.3.12 —
+⚠️ **"Use Tune Slider"** does not work correctly with CTRL+TUNE command —
 it uses full DRIVE power (0dB) instead of the tune slider level.
 
 ✅ **Recommended: Use "Use Fixed Drive"** in Setup → Transmit → Tune and set a fixed 
@@ -128,6 +128,10 @@ protecting both the LDG tuner and the final amplifier from high SWR or over powe
 - **TX normal (MOX)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow full output power for normal operation
 - **Tune mode (TUNE)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow to peak final amplifier at lower power
 - **Automatic Tuning (CTRL+TUNE)** → Out5 floating = final amplifier bypassed, pre-drive only (10-15W for LDG tuning)
+
+## YouTube Video Demonstration
+
+You can see [HERE](https://youtu.be/yxHAFSqGRB4?si=Kt_dsn5d8tTB3oXX) a crude video demonstration of the system working.
 
 ## Known Limitations
 
