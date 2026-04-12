@@ -129,6 +129,14 @@ protecting both the LDG tuner and the final amplifier from high SWR or over powe
 - **Tune mode (TUNE)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow to peak final amplifier at lower power
 - **Automatic Tuning (CTRL+TUNE)** → Out5 floating = final amplifier bypassed, pre-drive only (10-15W for LDG tuning)
 
+## IO board wiring example (VA2CST)
+![](./assets/2026-04-12_004637.png)
+
+- Yellow wire - J8 pin 2 (KEY line) with pull up resistor to 3.3V (3V2) → J7 pin 2 (DB9)
+- Orange wire - J6 pin 6 (START line) → J7 pin 3 (DB9)
+- Red wire - J6 pin 5 (amplifier KEY) → J7 pin 7 (DB9)
+- Black wire - G1 (GND) → J7 pin 5 (DB9), GND shared for tuner and amplifier on DB9 connector
+
 ## YouTube Video Demonstration
 
 You can see [HERE](https://youtu.be/ttHCVzRcAcU) a crude video demonstration of the system working.
