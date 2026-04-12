@@ -6,7 +6,7 @@ LDG AT-1000 Pro II antenna tuner support for Hermes Lite 2 IO Board
 
 This firmware adds LDG AT-1000 Pro II automatic antenna tuner support to the 
 [Hermes Lite 2 IO Board](https://github.com/jimahlstrom/HL2IOBoard) designed by Jim Ahlstrom N2ADR.
-It also includes amplifier control on J6 Out5 to protect the amplifier during tuning.
+It also includes amplifier control on J6 Out5 to protect the tuner and amplifier during tuning.
 
 This code is based on the original n2adr_basic firmware by Jim Ahlstrom N2ADR.
 Only `main.c` and `icom_ah4.c` have been modified.
