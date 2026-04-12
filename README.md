@@ -140,10 +140,10 @@ Using 2.54mm male and female pin headers,
 
 For J7 (DB9) pin number, you can chose whatever pin number order you like for your project.
 On my end, I kept the RS232 pins numbers (even though it is NOT a serial communication port) being:
-- pin2 KEY line (RXD)
-- pin3 START line (TXD)
+- pin2 KEY line (RXD receiving from the LDG tuner)
+- pin3 START line (TXD sending to the LDG tuner)
 - pin5 GND
-- pin7 Amplifier KEY (RTS ready to send)
+- pin7 Amplifier KEY (RTS Ready To Send to the second amp)
 
 ## YouTube Video Demonstration
 
