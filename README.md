@@ -138,6 +138,13 @@ Using 2.54mm male and female pin headers,
 - Red wire - J6 pin 5 (amplifier KEY) → J7 pin 7 (DB9)
 - Black wire - G1 (GND) → J7 pin 5 (DB9), GND shared for tuner and amplifier on DB9 connector
 
+For J7 (DB9) pin number, you can chose whatever pin number order you like for your project.
+On my end, I kept the RS232 pins numbers (even though it is NOT a serial communication port) being:
+- pin2 KEY line (RXD)
+- pin3 START line (TXD)
+- pin5 GND
+- pin7 Amplifier KEY (RTS ready to send)
+
 ## YouTube Video Demonstration
 
 You can see [HERE](https://youtu.be/ttHCVzRcAcU) a crude video demonstration of the system working.
