@@ -14,9 +14,9 @@ Only `main.c` and `icom_ah4.c` have been modified.
 ## Important Notes
 
 - The LDG AT-1000 Pro II timing behavior differs from the standard Icom AH-4 protocol
-- Tested with Thetis v2.10.3.12 for Hermes Lite 2 by MI0BOT (Reid)
+- Tested with Thetis v2.10.3.12 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
 - The HL2 alone (5W max) may not provide enough power for the LDG (requires 10-15 watts)
-- An external amplifier may be required
+- An external amplifier may be required for the AT-1000 PRO II
 
 ## Hardware Requirements
 
