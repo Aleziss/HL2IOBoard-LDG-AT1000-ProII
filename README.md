@@ -17,7 +17,8 @@ Only `main.c` and `icom_ah4.c` have been modified.
 - Tested with Thetis v2.10.3.12 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
 - The HL2 alone (5W max) won't provide enough power for the LDG AT-1000 PRO II (requires 10-25 watts)
 - An external amplifier is required for the AT-1000 PRO II
-- AT-1000 PRO II with firmware V1.8 have their meter and interface ports disabled for operation safety so this code won't work with your tuner.
+- AT-1000 PRO II with firmware V1.8 have their meter and interface ports disabled for operation safety 
+so this code won't work with your tuner if it uses that version.
 
 ## Hardware Requirements
 
