@@ -15,7 +15,7 @@ Only `main.c` and `icom_ah4.c` have been modified.
 
 - The LDG AT-1000 Pro II timing behavior differs from the standard Icom AH-4 protocol
 - Tested with Thetis v2.10.3.12 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
-- The HL2 alone (5W max) may not provide enough power for the LDG (requires 10-15 watts)
+- The HL2 alone (5W max) may not provide enough power for the LDG (requires 10-20 watts)
 - An external amplifier may be required for the AT-1000 PRO II
 
 ## Hardware Requirements
@@ -71,14 +71,14 @@ abort and return to its previous state without any error indication to the IO Bo
 it uses full DRIVE power (0dB) instead of the tune slider level.
 
 ✅ **Recommended: Use "Use Fixed Drive"** in Setup → Transmit → Tune and set a fixed 
-drive level to achieve 10-15 watts output for reliable LDG tuning.
+drive level to achieve 10-20 watts output for reliable LDG tuning.
 
 ## Amplifier Control
 
 Out5 (J6 pin 5) controls an external amplifier:
 - **TX normal** → Out5 HIGH (amplifier active)
 - **RX** → Out5 LOW (amplifier bypassed)
-- **During tuning** → Out5 LOW (amplifier bypassed - LDG requires 10-15 watts for tuning, excessive power could damage the tuner or prevent successful tuning)
+- **During tuning** → Out5 LOW (amplifier bypassed - LDG requires 10-20 watts for tuning, excessive power could damage the tuner or prevent successful tuning)
 
 ## Installation
 
@@ -99,7 +99,7 @@ Out5 (J6 pin 5) controls an external amplifier:
 
 - Use **CTRL+TUNE** to start automatic tuning
 - For power level, use **Setup → Transmit → Tune → Use Fixed Drive**
-- Set fixed drive to achieve 10-15 watts output
+- Set fixed drive to achieve 10-20 watts output
 - Note: "Use Tune Slider" with CTRL+TUNE may use full drive power (known issue)
 
 ## Error Codes
@@ -120,7 +120,7 @@ HL2 (5W) → Pre-drive amplifier (~60W) → Final tube amplifier (~700W) → LDG
 The pre-drive amplifier is controlled directly by the HL2 EXTTR RCA jack.
 The final tube amplifier is controlled by J6 Out5 on the IO Board.
 
-This setup ensures the LDG receives only 10-15 watts during automatic tuning,
+This setup ensures the LDG receives only 10-20 watts during automatic tuning,
 protecting both the LDG tuner and the final amplifier from high SWR or over power conditions.
 
 **Signal flow control:**
