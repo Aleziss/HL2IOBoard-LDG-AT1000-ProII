@@ -15,7 +15,7 @@ Only `main.c` and `icom_ah4.c` have been modified.
 
 - The LDG AT-1000 Pro II timing behavior differs from the standard Icom AH-4 protocol
 - Tested with Thetis v2.10.3.12 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
-- The HL2 alone (5W max) may not provide enough power for the LDG (requires 10-20 watts)
+- The HL2 alone (5W max) may not provide enough power for the LDG (requires 10-25 watts)
 - An external amplifier may be required for the AT-1000 PRO II
 
 ## Hardware Requirements
@@ -53,7 +53,7 @@ The LDG AT-1000 Pro II behaves differently from the standard Icom AH-4 protocol:
 1. Thetis sends tune request via CTRL+TUNE
 2. Pico asserts START high for 500ms then releases
 3. LDG pulls KEY low **after** START is released (unlike AH-4 which pulls KEY low while START is high)
-4. Pico requests RF from Thetis (0xEE) - requires 10-15 watts
+4. Pico requests RF from Thetis (0xEE) - requires 10-25 watts
 5. LDG tunes the antenna and pulls KEY high when complete
 6. Pico stops RF transmission
 
@@ -71,14 +71,14 @@ abort and return to its previous state without any error indication to the IO Bo
 it uses full DRIVE power (0dB) instead of the tune slider level.
 
 ✅ **Recommended: Use "Use Fixed Drive"** in Setup → Transmit → Tune and set a fixed 
-drive level to achieve 10-20 watts output for reliable LDG tuning.
+drive level to achieve 10-25 watts output for reliable LDG tuning.
 
 ## Amplifier Control
 
 Out5 (J6 pin 5) controls an external amplifier:
 - **TX normal** → Out5 HIGH (amplifier active)
 - **RX** → Out5 LOW (amplifier bypassed)
-- **During tuning** → Out5 LOW (amplifier bypassed - LDG requires 10-20 watts for tuning, excessive power could damage the tuner or prevent successful tuning)
+- **During tuning** → Out5 LOW (amplifier bypassed - LDG requires 10-25 watts for tuning, excessive power could damage the tuner or prevent successful tuning)
 
 ## Installation
 
@@ -99,7 +99,7 @@ Out5 (J6 pin 5) controls an external amplifier:
 
 - Use **CTRL+TUNE** to start automatic tuning
 - For power level, use **Setup → Transmit → Tune → Use Fixed Drive**
-- Set fixed drive to achieve 10-20 watts output
+- Set fixed drive to achieve 10-25 watts output
 - Note: "Use Tune Slider" with CTRL+TUNE may use full drive power (known issue)
 
 ## Error Codes
@@ -120,14 +120,14 @@ HL2 (5W) → Pre-drive amplifier (~60W) → Final tube amplifier (~700W) → LDG
 The pre-drive amplifier is controlled directly by the HL2 EXTTR RCA jack.
 The final tube amplifier is controlled by J6 Out5 on the IO Board.
 
-This setup ensures the LDG receives only 10-20 watts during automatic tuning,
+This setup ensures the LDG receives only 10-25 watts during automatic tuning,
 protecting both the LDG tuner and the final amplifier from high SWR or over power conditions.
 
 **Signal flow control:**
 - **RX** → J6 Out5 floating = both amplifiers in receive mode
 - **TX normal (MOX)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow full output power for normal operation
 - **Tune mode (TUNE)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow to peak final amplifier at lower power
-- **Automatic Tuning (CTRL+TUNE)** → Out5 floating = final amplifier bypassed, pre-drive only (10-15W for LDG tuning)
+- **Automatic Tuning (CTRL+TUNE)** → Out5 floating = final amplifier bypassed, pre-drive only (10-25W for LDG tuning)
 
 ## IO board wiring example (VA2CST)
 ![](./assets/2026-04-12_004637.png)
@@ -163,15 +163,15 @@ https://github.com/mi0bot/OpenHPSDR-Thetis/issues/127
 
 **Manual Workaround:** For manual tuning >7s
 1. Manually bypass final amplifier connected on J6 Out5
-2. Hit TUN on Thetis, this should provide 10-20W for unlimited time
-3. Hold "TUNE" on LDG tuner for >500ms, tuner will start up to 15s
+2. Hit TUN on Thetis, this should provide 10-25W for unlimited time
+3. Hold "TUNE" on LDG tuner between >500ms and <2.5s, tuner will start up to 15s
 4. Once tune achieve, turn off TUN on Thetis software and reengage final amplifier on J6 Out5
 
 ## Credits
 
 - Original IO Board firmware by Jim Ahlstrom N2ADR - https://github.com/jimahlstrom/HL2IOBoard
 - Thetis for Hermes Lite 2 by Reid MI0BOT - https://github.com/mi0bot/OpenHPSDR-Thetis
-- LDG AT-1000 Pro II modifications by Claude Perreault VA2CST - 2026
+- LDG AT-1000 Pro II code modifications by Claude Perreault VA2CST - 2026
 
 ## License
 
