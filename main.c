@@ -3,7 +3,7 @@
 //   It is licensed under the MIT license. See MIT.txt.
 //
 // Modified by Claude Perreault, VA2CST - Copyright (c) 2026
-//   Changes: Added LDG AT-1000 Pro II antenna tuner (firmware v1.7) support and amplifier control on J6 Out5
+//   Changes: Added LDG AT-1000 Pro II antenna tuner support (firmware v1.7) and amplifier control on J6 Out5
 //
 // This firmware outputs the FT817 band voltage on J4 pin 8, controls the LDG AT-1000 Pro II
 // antenna tuner via modified Icom AH-4 protocol, and controls an external amplifier on J6 Out5.
