@@ -22,7 +22,7 @@ Only `main.c` and `icom_ah4.c` have been modified.
 ## Hardware Requirements
 
 - Hermes Lite 2 with IO Board
-- LDG AT-1000 Pro II (or compatible)
+- LDG AT-1000 Pro II (firmware V1.7 or compatible)
 - 4.7K ohm resistor for KEY line pull-up
 - External 12V power supply for the LDG (DO NOT use IO Board 12V switched line)
 
@@ -167,6 +167,17 @@ https://github.com/mi0bot/OpenHPSDR-Thetis/issues/127
 2. Hit TUN on Thetis, this should provide 10-25W for unlimited time
 3. Hold "TUNE" on LDG tuner between >500ms and <2.5s, tuner will start up to 15s
 4. Once tune achieve, turn off TUN on Thetis software and reengage final amplifier on J6 Out5
+
+## LDG AT-1000 Pro II Firmware Compatibility
+
+⚠️ **Important:** This code requires LDG firmware version 1.7 or earlier.
+LDG firmware version 1.8 disables the radio control port (METER and RADIO ports),
+which prevents remote activation of the tuner via the IO Board.
+
+With firmware v1.8, the tuner can only be activated manually using the TUNE button 
+on the LDG unit itself and currently won't trigger the IO Board to make the HL2 transmit.
+
+Check your LDG firmware version before attempting to use this code.
 
 ## Credits
 
