@@ -24,7 +24,7 @@
 //   2. Pico verifies KEY is high before starting - returns 0xFA if not
 //   3. Pico asserts START high for 500ms then releases
 //   4. LDG pulls KEY low to indicate ready for RF
-//   5. Pico sets REG_ANTENNA_TUNER to 0xEE to request RF from Thetis (10-15 watts required for LDG AT-1000 Pro II)
+//   5. Pico sets REG_ANTENNA_TUNER to 0xEE to request RF from Thetis (10-20 watts required for LDG AT-1000 Pro II)
 //   6. Thetis transmits CW tune signal
 //   7. LDG tunes the antenna and pulls KEY high when complete
 //   8. Pico sets REG_ANTENNA_TUNER to 0 to stop RF
