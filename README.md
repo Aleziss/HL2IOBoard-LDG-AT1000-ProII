@@ -163,7 +163,7 @@ https://github.com/mi0bot/OpenHPSDR-Thetis/issues/127
 
 **Manual Workaround:** For manual tuning >7s
 1. Manually bypass final amplifier connected on J6 Out5
-2. Hit TUN on Thetis, this should provide 10-15W for unlimited time
+2. Hit TUN on Thetis, this should provide 10-20W for unlimited time
 3. Hold "TUNE" on LDG tuner for >500ms, tuner will start up to 15s
 4. Once tune achieve, turn off TUN on Thetis software and reengage final amplifier on J6 Out5
 
