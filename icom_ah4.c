@@ -8,7 +8,7 @@
 //
 // This implements control for the LDG AT-1000 Pro II antenna tuner using Icom AH-4 compatible protocol.
 // The LDG tuner behavior differs from the standard AH-4 protocol:
-//   - START must be held high for at least 250ms to trigger a tuning sequence (not just a pulse)
+//   - START must be held high for at least 500ms to trigger a tuning sequence (not just a pulse)
 //   - KEY goes low AFTER START is released (not while START is high as in standard AH-4)
 //   - KEY remains low while the tuner is waiting for RF
 //   - KEY goes high when tuning is complete
