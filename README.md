@@ -15,9 +15,9 @@ Only `main.c` and `icom_ah4.c` have been modified.
 
 - The LDG AT-1000 Pro II timing behavior differs from the standard Icom AH-4 protocol
 - Tested with Thetis v2.10.3.12 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
-- The HL2 alone (5W max) won't provide enough power for the LDG AT-1000 PRO II (requires 10-25 watts)
-- An external amplifier is required for the AT-1000 PRO II
-- AT-1000 PRO II with firmware V1.8 have their interface ports meter and radio disabled for operation safety 
+- The HL2 alone (5W max) won't provide enough power for the LDG AT-1000 PRO II 
+- An external amplifier is required for the AT-1000 PRO II, 10-25 watts required for effective tuning
+- AT-1000 PRO II with firmware V1.8 has disabled the METER and RADIO interface ports for safety reasons 
 so this code won't work with your tuner if it uses that version.
 
 ## Hardware Requirements
@@ -171,14 +171,12 @@ https://github.com/mi0bot/OpenHPSDR-Thetis/issues/127
 
 ## LDG AT-1000 Pro II Firmware Compatibility
 
-⚠️ **Important:** This code requires LDG firmware version 1.7 or earlier.
-LDG firmware version 1.8 disables the radio control port (METER and RADIO ports),
-which prevents remote activation of the tuner via the IO Board.
+⚠️ **Important:** This code requires LDG firmware version 1.7.
+LDG firmware version 1.8 disabled the METER and RADIO interface ports for safety reasons,
+but LDG has since released firmware V1.7 which restores these ports.
 
-With firmware v1.8, the tuner can only be activated manually using the TUNE button 
-on the LDG unit itself and currently won't trigger the IO Board to make the HL2 transmit.
-
-Check your LDG firmware version before attempting to use this code.
+**Current firmware is V1.7** - if you have V1.8 installed, contact LDG to downgrade 
+to V1.7 to restore radio port functionality.
 
 ## Credits
 
