@@ -14,7 +14,7 @@ Only `main.c` and `icom_ah4.c` have been modified.
 ## Important Notes
 
 - The LDG AT-1000 Pro II timing behavior differs from the standard Icom AH-4 protocol
-- Tested with Thetis v2.10.3.12 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
+- Tested with Thetis v2.10.3.12 and .13 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
 - The HL2 alone (5W max) won't provide enough power for the LDG AT-1000 PRO II 
 - An external amplifier is required for the AT-1000 PRO II, 10-25 watts for effective tuning
 - AT-1000 PRO II with firmware V1.8 has disabled the METER and RADIO interface ports for safety reasons 
@@ -68,12 +68,13 @@ KEY returns high and the IO Board stops RF transmission (returns 0x00).
 If tuning fails (insufficient RF, antenna too far out of range, etc.), the LDG will simply
 abort and return to its previous state without any error indication to the IO Board.
 
-### Thetis Power Settings (v2.10.3.12)
-⚠️ **"Use Tune Slider"** does not work correctly with CTRL+TUNE command —
-it uses full DRIVE power (0dB) instead of the tune slider level.
+### Thetis Power Settings
+- v2.10.3.12 : "Use Tune Slider" uses full drive power (0dB) with CTRL+TUNE ❌
 
 ✅ **Recommended: Use "Use Fixed Drive"** in Setup → Transmit → Tune and set a fixed 
 drive level to achieve 10-25 watts output for reliable LDG tuning.
+
+- v2.10.3.13 : "Use Tune Slider" partially fixed - CTRL+TUNE now uses "Use Fixed Drive" value instead of full power, but should ideally use the Tune Slider value ⚠️
 
 ## Amplifier Control
 
@@ -153,7 +154,7 @@ You can see [HERE](https://youtu.be/ttHCVzRcAcU) a crude video demonstration of 
 
 ## Known Limitations
 
-### Thetis RF Timeout (v2.10.3.12)
+### Thetis RF Timeout (v2.10.3.12 and .13)
 Thetis seems to stop RF transmission after approximately 7-8 seconds during CTRL+TUNE,
 regardless of the tuning state. This may prevent successful tuning if the LDG
 requires more time to complete the tuning sequence.
