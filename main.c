@@ -3,10 +3,13 @@
 //   It is licensed under the MIT license. See MIT.txt.
 //
 // Modified by Claude Perreault, VA2CST - Copyright (c) 2026
-//   Changes: Added LDG AT-1000 Pro II antenna tuner support (firmware v1.7) and amplifier control on J6 Out5
+//   Changes: Added LDG AT-1000 Pro II antenna tuner support and amplifier control on J6 Out5
+//	 Changes: Added Yaesu 4-bit binary-coded decimal signal (Data A, B, C, D) BCD band data on J4/6 Out1-4
+//	 Kept N2ADR logic but added band data based out of part of code from Dalton Williams, W5EIM 
 //
 // This firmware outputs the FT817 band voltage on J4 pin 8, controls the LDG AT-1000 Pro II
-// antenna tuner via modified Icom AH-4 protocol, and controls an external amplifier on J6 Out5.
+// antenna tuner via modified Icom AH-4 protocol, controls an external amplifier on J6 Out5
+// and BCD band data on J4/6 Out1-4
 
 #include "../hl2ioboard.h"
 #include "../i2c_registers.h"
@@ -77,7 +80,7 @@ int main()
 				rx_band = fcode2band(rx_freq_high);	// Convert the frequency code to a band code.
 		}
 		// Band decoder output for optional external filters or amplifier band switching
-		// Out1, Out2, Out3 on J4/J6 - not used in this configuration but left for future use
+		// Out1-4 on J4/J6 - follows Yaesu BCD band data 4-bit binary-coded decimal signal (Data A, B, C, D)
 		if (change_band) {
 			change_band = false;
 			if (tx_band == 0)	// Tx band zero is a reset
@@ -86,27 +89,78 @@ int main()
 				band = rx_band;
 			else
 				band = tx_band;
-			switch (band) {		// Set some GPIO pins according to the band
-			case BAND_40:
-			case BAND_15:
-				gpio_put(GPIO16_Out1, 1);
+			switch (band) {						// Set GPIO pins according to the band
+				case BAND_160:
+					gpio_put(GPIO16_Out1, 0);	//BCD Band Code D  J4 Pin 1 Gnd
+					gpio_put(GPIO19_Out2, 0);	//BCD Band Code C  J4 Pin 2 Gnd
+					gpio_put(GPIO20_Out3, 0);	//BCD Band Code B  J4 Pin 3 Gnd
+					gpio_put(GPIO11_Out4, 1);	//BCD Band Code A  J4 Pin 4 +5v
+					break;
+				case BAND_80:
+					gpio_put(GPIO16_Out1, 0);	//BCD Band Code D  J4 Pin 1 Gnd
+					gpio_put(GPIO19_Out2, 0);	//BCD Band Code C  J4 Pin 2 Gnd
+					gpio_put(GPIO20_Out3, 1);	//BCD Band Code B  J4 Pin 3 +5v
+					gpio_put(GPIO11_Out4, 0);	//BCD Band Code A  J4 Pin 4 Gnd
+					break;
+				case BAND_60:
+					gpio_put(GPIO16_Out1, 0);	//BCD Band Code D  J4 Pin 1 Gnd
+					gpio_put(GPIO19_Out2, 0);	//BCD Band Code C  J4 Pin 2 Gnd
+					gpio_put(GPIO20_Out3, 1);	//BCD Band Code B  J4 Pin 3 +5v
+					gpio_put(GPIO11_Out4, 1);	//BCD Band Code A  J4 Pin 4 +5v
+					break;
+				case BAND_40:
+					gpio_put(GPIO16_Out1, 0);	//BCD Band Code D  J4 Pin 1 Gnd
+					gpio_put(GPIO19_Out2, 0);	//BCD Band Code C  J4 Pin 2 Gnd
+					gpio_put(GPIO20_Out3, 1);	//BCD Band Code B  J4 Pin 3 +5v
+					gpio_put(GPIO11_Out4, 1);	//BCD Band Code A  J4 Pin 4 +5v
+					break;
+				case BAND_30:
+					gpio_put(GPIO16_Out1, 0);	//BCD Band Code D  J4 Pin 1 Gnd
+					gpio_put(GPIO19_Out2, 1);	//BCD Band Code C  J4 Pin 2 +5v
+					gpio_put(GPIO20_Out3, 0);	//BCD Band Code B  J4 Pin 3 Gnd	
+					gpio_put(GPIO11_Out4, 0);	//BCD Band Code A  J4 Pin 4 Gnd
+					break;
+				case BAND_20:
+					gpio_put(GPIO16_Out1, 0);	//BCD Band Code D  J4 Pin 1 Gnd	
+					gpio_put(GPIO19_Out2, 1);	//BCD Band Code C  J4 Pin 2 +5v
+					gpio_put(GPIO20_Out3, 0);	//BCD Band Code B  J4 Pin 3 Gnd
+					gpio_put(GPIO11_Out4, 1);	//BCD Band Code A  J4 Pin 4 +5v
+					break;
+				case BAND_17:
+					gpio_put(GPIO16_Out1, 0);	//BCD Band Code D  J4 Pin 1 Gnd
+					gpio_put(GPIO19_Out2, 1);	//BCD Band Code C  J4 Pin 2 +5v
+					gpio_put(GPIO20_Out3, 1);	//BCD Band Code B  J4 Pin 3 +5v
+					gpio_put(GPIO11_Out4, 0);	//BCD Band Code A  J4 Pin 4 Gnd
+					break;
+				case BAND_15:
+					gpio_put(GPIO16_Out1, 0);	//BCD Band Code D  J4 Pin 1 Gnd
+					gpio_put(GPIO19_Out2, 1);	//BCD Band Code C  J4 Pin 2 +5v
+					gpio_put(GPIO20_Out3, 1);	//BCD Band Code B  J4 Pin 3 +5v		
+					gpio_put(GPIO11_Out4, 1);	//BCD Band Code A  J4 Pin 4 +5v
+					break;
+				case BAND_12:
+					gpio_put(GPIO16_Out1, 1);	//BCD Band Code D  J4 Pin 1 +5v
+					gpio_put(GPIO19_Out2, 0);	//BCD Band Code C  J4 Pin 2 Gnd	
+					gpio_put(GPIO20_Out3, 0);	//BCD Band Code B  J4 Pin 3 Gnd
+					gpio_put(GPIO11_Out4, 0);	//BCD Band Code A  J4 Pin 4 Gnd
+					break;
+				case BAND_10:
+					gpio_put(GPIO16_Out1, 1);	//BCD Band Code D  J4 Pin 1 +5v	
+					gpio_put(GPIO19_Out2, 0);	//BCD Band Code C  J4 Pin 2 Gnd
+					gpio_put(GPIO20_Out3, 0);	//BCD Band Code B  J4 Pin 3 Gnd
+					gpio_put(GPIO11_Out4, 1);	//BCD Band Code A  J4 Pin 4 +5v
+					break;
+				case BAND_6:
+					gpio_put(GPIO16_Out1, 1);	//BCD Band Code D  J4 Pin 1 +5v
+					gpio_put(GPIO19_Out2, 0);	//BCD Band Code C  J4 Pin 2 Gnd
+					gpio_put(GPIO20_Out3, 1);	//BCD Band Code B  J4 Pin 3 +5v
+					gpio_put(GPIO11_Out4, 0);	//BCD Band Code A  J4 Pin 4 Gnd
+					break;
+				default:						// This includes band zero (reset)
+				gpio_put(GPIO16_Out1, 0);
 				gpio_put(GPIO19_Out2, 0);
 				gpio_put(GPIO20_Out3, 0);
-				break;
-			case BAND_20:
-				gpio_put(GPIO16_Out1, 0);
-				gpio_put(GPIO19_Out2, 1);
-				gpio_put(GPIO20_Out3, 0);
-				break;
-			case BAND_10:
-				gpio_put(GPIO16_Out1, 0);
-				gpio_put(GPIO19_Out2, 0);
-				gpio_put(GPIO20_Out3, 1);
-				break;
-			default:	// This includes band zero (reset)
-				gpio_put(GPIO16_Out1, 0);
-				gpio_put(GPIO19_Out2, 0);
-				gpio_put(GPIO20_Out3, 0);
+				gpio_put(GPIO11_Out4, 0);
 			}
 		}
 	}
