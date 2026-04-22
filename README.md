@@ -4,12 +4,52 @@ LDG AT-1000 Pro II antenna tuner support for Hermes Lite 2 IO Board
 
 ## Description
 
-This firmware adds LDG AT-1000 Pro II automatic antenna tuner support (firmware V1.7) to the 
-[Hermes Lite 2 IO Board](https://github.com/jimahlstrom/HL2IOBoard) designed by Jim Ahlstrom N2ADR.
-It also includes amplifier control on J6 Out5 to protect the tuner and amplifier during tuning.
+This firmware adds support for the **LDG AT-1000 Pro II** automatic antenna tuner to the [Hermes Lite 2 IO Board](https://github.com/jimahlstrom/HL2IOBoard) designed by Jim Ahlstrom, N2ADR.
+It enables control through the radio port between the Hermes Lite 2 and the tuner for automated tuning cycles.
 
-This code is based on the original n2adr_basic firmware by Jim Ahlstrom N2ADR.
+**Key Features:**
+* **LDG Integration:** Control of the LDG AT-1000 Pro II via a modified Icom AH-4 protocol (Requires tuner firmware V1.7).
+* **Amplifier Control:** Integrated logic on J6 Out5 to protect both the tuner and the amplifier during tuning.
+* **Band Voltage:** Supports Yaesu FT-817 analog band voltage on J4 Out8.
+* **BCD Band Decoder:** 4-bit Yaesu-standard BCD output on J6/J4 Out1-4.
+
+This code is based on the original `n2adr_basic` firmware by Jim Ahlstrom N2ADR. BCD band decoding logic inspired by Dalton Williams (W5EIM) is used with original N2ADR logic control.
 Only `main.c` and `icom_ah4.c` have been modified.
+
+## 🆕 Update (April 22nd 2026): BCD Band Decoder 
+This feature allows the IO Board to drive external Low Pass Filters (LPF) for Solid State Power Amplifiers (SSPA) or automatic antenna switches based on band changes.
+* **Standard Yaesu BCD Output:** Outputs 4-bit band data on **J6/J4 Out1-4**. 
+    * *Out1 (GPIO16), Out2 (GPIO19), Out3 (GPIO20), Out4 (GPIO11)*.
+
+## BCD Output Logic Table
+
+This table shows the state of **Out 1-4** (available on both J4 & J6) for each band.
+
+| Band | BCD Code (DCBA) | Out 1 (D) | Out 2 (C) | Out 3 (B) | Out 4 (A) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **160m** | 0001 | 0 | 0 | 0 | **1** |
+| **80m** | 0010 | 0 | 0 | **1** | 0 |
+| **40m/60m**| 0011 | 0 | 0 | **1** | **1** |
+| **30m** | 0100 | 0 | **1** | 0 | 0 |
+| **20m** | 0101 | 0 | **1** | 0 | **1** |
+| **17m** | 0110 | 0 | **1** | **1** | 0 |
+| **15m** | 0111 | 0 | **1** | **1** | **1** |
+| **12m** | 1000 | **1** | 0 | 0 | 0 |
+| **10m** | 1001 | **1** | 0 | 0 | **1** |
+| **6m** (not on HL2) | 1010 | **1** | 0 | **1** | 0 |
+
+#### Pin Mapping Reference
+
+| Signal | J4 (5V Logic) | J6 (Low-side Switch) | Pico GPIO |
+| :--- | :--- | :--- | :--- |
+| **Data D** | Pin 1 | Pin 1 | GPIO 16 |
+| **Data C** | Pin 2 | Pin 2 | GPIO 19 |
+| **Data B** | Pin 3 | Pin 3 | GPIO 20 |
+| **Data A** | Pin 4 | Pin 4 | GPIO 11 |
+
+> **Operation Logic:**
+> * **Logic 1:** J4 outputs **+5V** / J6 switch is **Closed** (Path to GND).
+> * **Logic 0:** J4 outputs **0V** / J6 switch is **Open**.
 
 ## Important Notes
 
@@ -29,12 +69,17 @@ so this code won't work with your tuner if it uses that version.
 
 ## Wiring
 
-| LDG Cable | IO Board |
-|-----------|----------|
-| START (ring) | J6 pin 6 (GPIO22_Out6 low-side switch) |
-| KEY (tip) | J8 pin 2 (GPIO18_In2) + 4.7K ohm pull-up to 3.3V (3V2 on IO board) |
-| GND (sleeve) | GND (G1 or G2 on IO Board) |
-| POWER (+12V) | External 12V power supply only - DO NOT use IO Board switched 12V line |
+| Signal | IO Board Pin | Function |
+|-----------|----------|----------|
+| **START (Tuner)** | J6 pin 6 (GPIO22) | Start line to LDG (low-side switch) |
+| **KEY (Tuner)** | J8 pin 2 (GPIO18) | Status from LDG (+ 4.7K pull-up to 3V2) |
+| **Amplifier KEY** | J6 pin 5 (GPIO10) | Amplifier Interlock (Out5) |
+| **BCD Data A** | J4/J6 pin 4 (GPIO11) | Yaesu BCD Bit 0 (LSB) |
+| **BCD Data B** | J4/J6 pin 3 (GPIO20) | Yaesu BCD Bit 1 |
+| **BCD Data C** | J4/J6 pin 2 (GPIO19) | Yaesu BCD Bit 2 |
+| **BCD Data D** | J4/J6 pin 1 (GPIO16) | Yaesu BCD Bit 3 (MSB) |
+| **Band Voltage** | J4 pin 8 (GPIO26) | Yaesu FT-817 Analog Band Volts (Out8) |
+| **GND** | G1, G2 or G3 | Shared Ground |
 
 ⚠️ **WARNING: Inductive loads on J6 Out5**
 If your amplifier uses relay coils on the KEY/PTT line, you MUST place a flyback diode 
@@ -79,9 +124,12 @@ drive level to achieve 10-25 watts output for reliable LDG tuning.
 ## Amplifier Control
 
 Out5 (J6 pin 5) controls an external amplifier:
+- **Amplifier Interlock:** Automatically bypasses your amplifier during LDG tuning.
+- **Safety Feature:** The amplifier remains bypassed after tuning until HL2 returns to RX mode once. This prevents "hot-switching" and protects your tuner's relays.
 - **TX normal** → Out5 HIGH (amplifier active)
 - **RX** → Out5 LOW (amplifier bypassed)
-- **During tuning** → Out5 LOW (amplifier bypassed - LDG requires 10-25 watts for tuning, excessive power could damage the tuner or prevent successful tuning)
+- **During tuning** → Out5 LOW (amplifier bypassed)
+
 
 ## Installation
 
