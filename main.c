@@ -3,7 +3,7 @@
 //   It is licensed under the MIT license. See MIT.txt.
 //
 // Modified by Claude Perreault, VA2CST - Copyright (c) 2026
-//   Changes: Added LDG AT-1000 Pro II antenna tuner support and amplifier control on J6 Out5
+//   Changes: Added LDG AT-1000 Pro II antenna tuner support (firmware v1.7) and amplifier control on J6 Out5
 //	 Changes: Added Yaesu 4-bit binary-coded decimal signal (Data A, B, C, D) BCD band data on J4/6 Out1-4
 //	 Kept N2ADR logic but added band data based out of part of code from Dalton Williams, W5EIM 
 //
