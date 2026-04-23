@@ -20,7 +20,7 @@
 //   GND line (sleeve) to GND (G1 or G2 on IO Board)
 //
 // Tuning sequence:
-//   1. Thetis sends tune request (writes 1 to REG_ANTENNA_TUNER via CTRL+TUNE)
+//   1. Thetis sends tune request (writes 1 to REG_ANTENNA_TUNER via CTRL+TUN)
 //   2. Pico verifies KEY is high before starting - returns 0xFA if not
 //   3. Pico asserts START high for 600ms then releases
 //   4. LDG pulls KEY low to indicate ready for RF
