@@ -5,7 +5,7 @@ LDG AT-1000 Pro II antenna tuner support for Hermes Lite 2 IO Board
 ## Description
 
 This firmware adds support for the **LDG AT-1000 Pro II** automatic antenna tuner to the [Hermes Lite 2 IO Board](https://github.com/jimahlstrom/HL2IOBoard) designed by Jim Ahlstrom, N2ADR.
-It enables control through the radio port between the Hermes Lite 2 and the tuner for automated tuning cycles.
+It enables control between the Hermes Lite 2 and the tuner radio port for automated tuning cycles.
 
 **Key Features:**
 * **LDG Integration:** Control of the LDG AT-1000 Pro II via a modified Icom AH-4 protocol (Requires tuner firmware V1.7).
@@ -72,13 +72,13 @@ so this code won't work with your tuner if it uses that version.
 | Signal | IO Board Pin | Function |
 |-----------|----------|----------|
 | **START (Tuner)** | J6 pin 6 (GPIO22) | Start line to LDG (low-side switch) |
-| **KEY (Tuner)** | J8 pin 2 (GPIO18) | Status from LDG (+ 4.7K pull-up to 3V2) |
+| **KEY (Tuner)** | J8 pin 2 (GPIO18) | Key line from LDG (+ 4.7K pull-up to 3V2) |
 | **Amplifier KEY** | J6 pin 5 (GPIO10) | Amplifier Interlock (Out5) |
 | **BCD Data A** | J4/J6 pin 4 (GPIO11) | Yaesu BCD Bit 0 (LSB) |
 | **BCD Data B** | J4/J6 pin 3 (GPIO20) | Yaesu BCD Bit 1 |
 | **BCD Data C** | J4/J6 pin 2 (GPIO19) | Yaesu BCD Bit 2 |
 | **BCD Data D** | J4/J6 pin 1 (GPIO16) | Yaesu BCD Bit 3 (MSB) |
-| **Band Voltage** | J4 pin 8 (GPIO26) | Yaesu FT-817 Analog Band Volts (Out8) |
+| **Band Voltage** | J4 pin 8 (GPIO26) | Yaesu FT-817 Analog Band Volts |
 | **GND** | G1, G2 or G3 | Shared Ground |
 
 ⚠️ **WARNING: Inductive loads on J6 Out5**
@@ -97,7 +97,7 @@ external 12V power supply only.
 
 The LDG AT-1000 Pro II behaves differently from the standard Icom AH-4 protocol:
 
-1. Thetis sends tune request via CTRL+TUNE
+1. Thetis sends tune request via CTRL+TUN
 2. Pico asserts START high for 600ms then releases
 3. LDG pulls KEY low **after** START is released (unlike AH-4 which pulls KEY low while START is high)
 4. Pico requests RF from Thetis (0xEE) - requires 10-25 watts
@@ -114,12 +114,12 @@ If tuning fails (insufficient RF, antenna too far out of range, etc.), the LDG w
 abort and return to its previous state without any error indication to the IO Board.
 
 ### Thetis Power Settings
-- v2.10.3.12 : "Use Tune Slider" uses full drive power (0dB) with CTRL+TUNE ❌
+- v2.10.3.12 : "Use Tune Slider" uses full drive power (0dB) with CTRL+TUN ❌
 
 ✅ **Recommended: Use "Use Fixed Drive"** in Setup → Transmit → Tune and set a fixed 
 drive level to achieve 10-25 watts output for reliable LDG tuning.
 
-- v2.10.3.13 : "Use Tune Slider" partially fixed - CTRL+TUNE now uses "Use Fixed Drive" value instead of full power, but should ideally use the Tune Slider value ⚠️
+- v2.10.3.13 : "Use Tune Slider" partially fixed - CTRL+TUN now uses "Use Fixed Drive" value instead of full power, but should ideally use the Tune Slider value ⚠️
 
 ## Amplifier Control
 
@@ -137,21 +137,21 @@ Out5 (J6 pin 5) controls an external amplifier:
    project from Jim N2ADR
 2. Replace `n2adr_basic/main.c` with the `main.c` from this repository
 3. Replace `n2adr_lib/icom_ah4.c` with the `icom_ah4.c` from this repository
-4. Recompile following Jim's instructions, or use the provided `main.uf2` directly
+4. Recompile the project and uplaod `main.uf2` from `n2adr_basic/build` to the Pico drive
 
 ## Quick Install (no compilation required)
 
 1. Power off the HL2
 2. Hold BOOTSEL button on Pico and connect USB cable to PC
-3. Copy `main.uf2` to the Pico drive
+3. Copy `main.uf2` from this repository to the Pico drive
 4. Disconnect USB and power on the HL2
 
-## Thetis Settings
+## Thetis Operation and Settings
 
-- Use **CTRL+TUNE** to start automatic tuning
+- Use **CTRL+TUN** to start automatic tuning
 - For power level, use **Setup → Transmit → Tune → Use Fixed Drive**
 - Set fixed drive to achieve 10-25 watts output
-- Note: "Use Tune Slider" with CTRL+TUNE may use full drive power (known issue)
+- Note: "Use Tune Slider" with CTRL+TUN may use full drive power (known issue)
 
 ## Error Codes
 
@@ -177,8 +177,8 @@ protecting both the LDG tuner and the final amplifier from high SWR or over powe
 **Signal flow control:**
 - **RX** → J6 Out5 floating = both amplifiers in receive mode
 - **TX normal (MOX)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow full output power for normal operation
-- **Tune mode (TUNE)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow to peak final amplifier at lower power
-- **Automatic Tuning (CTRL+TUNE)** → Out5 floating = final amplifier bypassed, pre-drive only (10-25W for LDG tuning)
+- **Tune mode (TUN)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow to peak final amplifier at lower power
+- **Automatic Tuning (CTRL+TUN)** → Out5 floating = final amplifier bypassed, pre-drive only (10-25W for LDG tuning)
 
 ## IO board wiring example (VA2CST)
 ![](./assets/2026-04-12_004637.png)
@@ -203,7 +203,7 @@ You can see [HERE](https://youtu.be/ttHCVzRcAcU) a crude video demonstration of 
 ## Known Limitations
 
 ### Thetis RF Timeout (v2.10.3.12 and .13)
-Thetis seems to stop RF transmission after approximately 7-8 seconds during CTRL+TUNE,
+Thetis seems to stop RF transmission after approximately 7-8 seconds during CTRL+TUN,
 regardless of the tuning state. This may prevent successful tuning if the LDG
 requires more time to complete the tuning sequence.
 
