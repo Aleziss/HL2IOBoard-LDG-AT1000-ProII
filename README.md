@@ -98,7 +98,7 @@ external 12V power supply only.
 The LDG AT-1000 Pro II behaves differently from the standard Icom AH-4 protocol:
 
 1. Thetis sends tune request via CTRL+TUNE
-2. Pico asserts START high for 500ms then releases
+2. Pico asserts START high for 600ms then releases
 3. LDG pulls KEY low **after** START is released (unlike AH-4 which pulls KEY low while START is high)
 4. Pico requests RF from Thetis (0xEE) - requires 10-25 watts
 5. LDG tunes the antenna and pulls KEY high when complete
