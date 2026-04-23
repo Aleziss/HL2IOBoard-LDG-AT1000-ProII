@@ -5,7 +5,7 @@
 // Modified by Claude Perreault, VA2CST - Copyright (c) 2026
 //   Changes: Added LDG AT-1000 Pro II antenna tuner support (firmware v1.7) and amplifier control on J6 Out5
 //	 Changes: Added Yaesu 4-bit binary-coded decimal signal (Data A, B, C, D) BCD band data on J4/6 Out1-4
-//	 Kept N2ADR logic but added band data based out of part of code from Dalton Williams, W5EIM 
+//	 BCD band decoding logic inspired by Dalton Williams (W5EIM) is used with original N2ADR logic control. 
 //
 // This firmware outputs the FT817 band voltage on J4 pin 8, controls the LDG AT-1000 Pro II
 // antenna tuner via modified Icom AH-4 protocol, controls an external amplifier on J6 Out5
@@ -150,7 +150,7 @@ int main()
 					gpio_put(GPIO20_Out3, 0);	//BCD Band Code B  J4 Pin 3 Gnd
 					gpio_put(GPIO11_Out4, 1);	//BCD Band Code A  J4 Pin 4 +5v
 					break;
-				case BAND_6:
+				case BAND_6:					//Not available on HL2
 					gpio_put(GPIO16_Out1, 1);	//BCD Band Code D  J4 Pin 1 +5v
 					gpio_put(GPIO19_Out2, 0);	//BCD Band Code C  J4 Pin 2 Gnd
 					gpio_put(GPIO20_Out3, 1);	//BCD Band Code B  J4 Pin 3 +5v
