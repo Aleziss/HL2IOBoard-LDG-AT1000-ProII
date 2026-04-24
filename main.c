@@ -37,7 +37,7 @@ int main()
 	while (1) {	// Wait for something to happen
 		sleep_ms(1);	// This sets the polling frequency.
 		// Control the LDG AT-1000 Pro II antenna tuner.
-		// START line is on J6 pin 6 and the KEY line is on J8 pin 2 with 4.7K pull-up to 3.3V
+		// START line is on J6 pin 6 and the KEY line is on J8 pin 2 with 4.7K pull-up to 5V (P3)
 		IcomAh4(GPIO22_Out6, GPIO18_In2);
 		// Poll for a changed Tx band, Rx band and T/R change
 		change_band = false;
