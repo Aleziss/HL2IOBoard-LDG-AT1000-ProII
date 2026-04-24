@@ -176,8 +176,8 @@ protecting both the LDG tuner and the final amplifier from high SWR or over powe
 
 **Signal flow control:**
 - **RX** → J6 Out5 floating = both amplifiers in receive mode
-- **TX normal (MOX)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow full output power for normal operation
-- **Tune mode (TUN)** → J6 Out5 grounded = both amplifiers in transmit mode, this allow to peak final amplifier at lower power
+- **TX normal (MOX)** → J6 Out5 grounded = both amplifiers in transmit mode, this allows full output power for normal operation
+- **Tune mode (TUN)** → J6 Out5 grounded = both amplifiers in transmit mode, this allows to peak final amplifier at lower power
 - **Automatic Tuning (CTRL+TUN)** → Out5 floating = final amplifier bypassed, pre-drive only (10-25W for LDG tuning)
 
 ## IO board wiring example (VA2CST)
