@@ -64,7 +64,7 @@ so this code won't work with your tuner if it uses that version.
 
 - Hermes Lite 2 with IO Board
 - LDG AT-1000 Pro II (firmware V1.7 or compatible)
-- 4.7K ohm resistor for KEY line pull-up
+- Wire to solder from J8 pin 2 to P3 pull-up (4.7k 5V)
 - External 12V power supply for the LDG (DO NOT use IO Board 12V switched line)
 
 ## Wiring
@@ -72,7 +72,7 @@ so this code won't work with your tuner if it uses that version.
 | Signal | IO Board Pin | Function |
 |-----------|----------|----------|
 | **START (Tuner)** | J6 pin 6 (GPIO22) | Start line to LDG (low-side switch) |
-| **KEY (Tuner)** | J8 pin 2 (GPIO18) | Key line from LDG (+ 4.7K pull-up to 3V2) |
+| **KEY (Tuner)** | J8 pin 2 (GPIO18) | Key line from LDG (4.7K pull-up to P3) |
 | **Amplifier KEY** | J6 pin 5 (GPIO10) | Amplifier Interlock (Out5) |
 | **BCD Data A** | J4/J6 pin 4 (GPIO11) | Yaesu BCD Bit 0 (LSB) |
 | **BCD Data B** | J4/J6 pin 3 (GPIO20) | Yaesu BCD Bit 1 |
