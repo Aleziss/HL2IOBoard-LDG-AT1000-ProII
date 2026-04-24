@@ -230,8 +230,8 @@ to V1.7 to restore radio port functionality.
 ## Credits
 
 - Original IO Board firmware by Jim Ahlstrom N2ADR - https://github.com/jimahlstrom/HL2IOBoard
-- Thetis for Hermes Lite 2 by Reid MI0BOT - https://github.com/mi0bot/OpenHPSDR-Thetis
-- LDG AT-1000 Pro II code modifications by Claude Perreault VA2CST - 2026
+- Thetis for Hermes Lite 2 by Reid Campbell MI0BOT - https://github.com/mi0bot/OpenHPSDR-Thetis
+- LDG AT-1000 Pro II with amp control code modifications by Claude Perreault VA2CST - 2026
 
 ## License
 
