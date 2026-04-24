@@ -85,7 +85,7 @@ so this code won't work with your tuner if it uses that version.
 If your amplifier uses relay coils on the KEY/PTT line, you MUST place a flyback diode 
 across the relay coil to protect the IO Board low-side switch (TBD62381).
 A 1N4148 or 1N4001 diode across the relay coil is sufficient.
-See [IO Board documentation](https://github.com/jimahlstrom/HL2IOBoard) for details.
+See [IO Board documentation](https://github.com/jimahlstrom/HL2IOBoard#design-of-the-io-board-hardware) for details.
 
 ⚠️ **WARNING: DO NOT connect START to J4 pin 6** — as per the original code instructed, 
 J4 is an active 5V output that will block the LDG tuner. Use J6 pin 6 (low-side switch) only.
