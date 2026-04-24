@@ -181,10 +181,10 @@ protecting both the LDG tuner and the final amplifier from high SWR or over powe
 - **Automatic Tuning (CTRL+TUN)** → Out5 floating = final amplifier bypassed, pre-drive only (10-25W for LDG tuning)
 
 ## IO board wiring example (VA2CST)
-![](./assets/2026-04-12_004637.png)
+![](./assets/20260424_015018.jpg)
 
 Using 2.54mm male and female pin headers,
-- Yellow wire - J8 pin 2 (KEY line) with pull up resistor to 3.3V (3V2) → J7 pin 2 (DB9)
+- Yellow wire - J8 pin 2 (KEY line) with pull up resistor to 4.7k 5V (P3) → J7 pin 2 (DB9)
 - Orange wire - J6 pin 6 (START line) → J7 pin 3 (DB9)
 - Red wire - J6 pin 5 (amplifier KEY) → J7 pin 7 (DB9)
 - Black wire - G1 (GND) → J7 pin 5 (DB9), GND shared for tuner and amplifier on DB9 connector
@@ -195,6 +195,14 @@ On my end, I kept the RS232 pins numbers (even though it is NOT a serial communi
 - pin3 START line (TXD sending to the LDG tuner)
 - pin5 GND
 - pin7 Amplifier KEY (RTS Ready To Send to the second amp)
+
+### Pull-Up resistor connection
+**Note:** The IO Board already has 4.7K ohm pull-up resistors on P3 and P4 (to +5V). 
+Simply connect P3 or P4 to J8 pin 2 with a short wire instead of adding an external resistor.
+
+![](./assets/P3_PU_J8_2.png)
+
+![](./assets/20260424_014728.jpg)
 
 ## YouTube Video Demonstration
 
