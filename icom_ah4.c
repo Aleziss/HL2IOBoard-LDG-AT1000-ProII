@@ -16,7 +16,7 @@
 // Wiring:
 //   DO NOT POWER THE LDG TUNER WITH THE IO BOARD 12V SWITCHED LINE, USE EXTERNAL PSU
 //   START line (ring) to J6 pin 6 (GPIO22_Out6 low-side switch)
-//   KEY line (tip) to J8 pin 2 (GPIO18_In2) to 4.7Kohm 5V pull-up resistor (P3 on IO Board)
+//   KEY line (tip) to J8 pin 2 (GPIO18_In2) with 4.7Kohm 5V pull-up resistor (P3 on IO Board)
 //   GND line (sleeve) to GND (G1 or G2 on IO Board)
 //
 // Tuning sequence:
