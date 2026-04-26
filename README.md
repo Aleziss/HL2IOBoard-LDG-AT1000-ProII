@@ -17,39 +17,8 @@ This code is based on the original `n2adr_basic` firmware by Jim Ahlstrom N2ADR.
 Only `main.c` and `icom_ah4.c` have been modified.
 
 ## 🆕 Update (April 22nd 2026): BCD Band Decoder 
-This feature allows the IO Board to drive external Low Pass Filters (LPF) for Solid State Power Amplifiers (SSPA) or automatic antenna switches based on band changes.
-* **Standard Yaesu BCD Output:** Outputs 4-bit band data on **J6/J4 Out1-4**. 
-    * *Out1 (GPIO16), Out2 (GPIO19), Out3 (GPIO20), Out4 (GPIO11)*.
-
-## BCD Output Logic Table
-
-This table shows the state of **Out 1-4** (available on both J4 & J6) for each band.
-
-| Band | BCD Code (DCBA) | Out 1 (D) | Out 2 (C) | Out 3 (B) | Out 4 (A) |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **160m** | 0001 | 0 | 0 | 0 | **1** |
-| **80m** | 0010 | 0 | 0 | **1** | 0 |
-| **40m/60m**| 0011 | 0 | 0 | **1** | **1** |
-| **30m** | 0100 | 0 | **1** | 0 | 0 |
-| **20m** | 0101 | 0 | **1** | 0 | **1** |
-| **17m** | 0110 | 0 | **1** | **1** | 0 |
-| **15m** | 0111 | 0 | **1** | **1** | **1** |
-| **12m** | 1000 | **1** | 0 | 0 | 0 |
-| **10m** | 1001 | **1** | 0 | 0 | **1** |
-| **6m** (not on HL2) | 1010 | **1** | 0 | **1** | 0 |
-
-#### Pin Mapping Reference
-
-| Signal | J4 (5V Logic) | J6 (Low-side Switch) | Pico GPIO |
-| :--- | :--- | :--- | :--- |
-| **Data D** | Pin 1 | Pin 1 | GPIO 16 |
-| **Data C** | Pin 2 | Pin 2 | GPIO 19 |
-| **Data B** | Pin 3 | Pin 3 | GPIO 20 |
-| **Data A** | Pin 4 | Pin 4 | GPIO 11 |
-
-> **Operation Logic:**
-> * **Logic 1:** J4 outputs **+5V** / J6 switch is **Closed** (Path to GND).
-> * **Logic 0:** J4 outputs **0V** / J6 switch is **Open**.
+This new feature allows the IO Board to drive external Low Pass Filters (LPF) for Solid State Power Amplifiers (SSPA) or automatic antenna switches based on band changes. You can [view table information](#bcd=output-logic-table) at the bottom of this page.
+* **Standard Yaesu BCD Output:** Outputs 4-bit band data on **J6/J4 Out1-4**.
 
 ## Important Notes
 
@@ -234,6 +203,36 @@ but LDG has since released firmware V1.7 which restores these ports.
 
 **Current firmware is V1.7** - if you have V1.8 installed, contact LDG to downgrade 
 to V1.7 to restore radio port functionality.
+
+## BCD Output Logic Table
+
+This table shows the state of **Out 1-4** (available on both J4 & J6) for each band.
+
+| Band | BCD Code (DCBA) | Out 1 (D) | Out 2 (C) | Out 3 (B) | Out 4 (A) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **160m** | 0001 | 0 | 0 | 0 | **1** |
+| **80m** | 0010 | 0 | 0 | **1** | 0 |
+| **40m/60m**| 0011 | 0 | 0 | **1** | **1** |
+| **30m** | 0100 | 0 | **1** | 0 | 0 |
+| **20m** | 0101 | 0 | **1** | 0 | **1** |
+| **17m** | 0110 | 0 | **1** | **1** | 0 |
+| **15m** | 0111 | 0 | **1** | **1** | **1** |
+| **12m** | 1000 | **1** | 0 | 0 | 0 |
+| **10m** | 1001 | **1** | 0 | 0 | **1** |
+| **6m** (not on HL2) | 1010 | **1** | 0 | **1** | 0 |
+
+#### Pin Mapping Reference
+
+| Signal | J4 (5V Logic) | J6 (Low-side Switch) | Pico GPIO |
+| :--- | :--- | :--- | :--- |
+| **Data D** | Pin 1 | Pin 1 | GPIO 16 |
+| **Data C** | Pin 2 | Pin 2 | GPIO 19 |
+| **Data B** | Pin 3 | Pin 3 | GPIO 20 |
+| **Data A** | Pin 4 | Pin 4 | GPIO 11 |
+
+> **Operation Logic:**
+> * **Logic 1:** J4 outputs **+5V** / J6 switch is **Closed** (Path to GND).
+> * **Logic 0:** J4 outputs **0V** / J6 switch is **Open**.
 
 ## Credits
 
