@@ -17,7 +17,7 @@ This code is based on the original `n2adr_basic` firmware by Jim Ahlstrom N2ADR.
 Only `main.c` and `icom_ah4.c` have been modified.
 
 ## 🆕 Update (April 22nd 2026): BCD Band Decoder 
-This new feature allows the IO Board to drive external Low Pass Filters (LPF) for Solid State Power Amplifiers (SSPA) or automatic antenna switches based on band changes. You can [view table information](#bcd=output-logic-table) at the bottom of this page.
+This new feature allows the IO Board to drive external Low Pass Filters (LPF) for Solid State Power Amplifiers (SSPA) or automatic antenna switches based on band changes. You can [view table information](#bcd-output-logic-table) at the bottom of this page.
 * **Standard Yaesu BCD Output:** Outputs 4-bit band data on **J6/J4 Out1-4**.
 
 ## Important Notes
