@@ -294,6 +294,14 @@ The HL2 internal T/R relay K2 is held in RX position permanently — this is by 
 | K2 T/R relay | Normal RX/TX switching | Fixed in RX position |
 | Dedicated RX antenna | No | Yes |
 
+### Implementation Notes
+- Mode change is detected on every polling cycle (1ms)
+- In mode 2, GPIO02_RF3 follows RX/TX state via GPIO13_EXTTR (is_rx) already available in the main loop:
+  - RX : RF3 = HIGH → routes J9 to HL2
+  - TX : RF3 = LOW → routes J10 Pure Signal to HL2
+- INTTR (GPIO03) is held HIGH permanently in mode 2 — K2 stays in RX position
+- Only `main.c` has been modified for this feature
+
 ## Credits
 
 - Original IO Board firmware by Jim Ahlstrom N2ADR - https://github.com/jimahlstrom/HL2IOBoard
