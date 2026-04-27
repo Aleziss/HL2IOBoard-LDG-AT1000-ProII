@@ -12,7 +12,7 @@ It enables control between the Hermes Lite 2 and the tuner radio port for automa
 * **Amplifier Control:** Integrated logic on J6 Out5 to protect both the tuner and the amplifier during tuning.
 * **Band Voltage:** Supports Yaesu FT-817 analog band voltage on J4 Out8.
 * **BCD Band Decoder:** 4-bit Yaesu-standard BCD output on J6/J4 Out1-4.
-* **RF Input Mode Control:** Option to run a dedicated receive antenna on ALT RX J9 SMA with adaptive predistortion sampling on PURE J10 SMA.
+* **RF Input Mode Control:** Option to run a dedicated receive antenna on ALT RX SMA connector J9 with adaptive predistortion sampling on PURE SMA connector J10.
 
 This code is based on the original `n2adr_basic` firmware by Jim Ahlstrom N2ADR.
 BCD band decoding logic inspired by Dalton Williams (W5EIM) is used with original N2ADR logic control.
