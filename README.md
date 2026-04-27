@@ -19,7 +19,10 @@ BCD band decoding logic inspired by Dalton Williams (W5EIM) is used with origina
 Only `main.c` and `icom_ah4.c` have been modified.
 
 ## 🆕 Update (April 26th 2026): RF Input Mode Control
-This new feature allows you to install a SPDT switch on J8 In5 to select between normal HL2 RX on ANT input with Pure Signal feedback on J10 (Mode 0) or dedicated receive antenna on ALT RX J9 with Pure Signal feedback on J10 (Mode 2).
+This new feature allows you to install a SPDT switch on J8 In5 to 
+*select between normal HL2 RX on ANT input with Pure Signal feedback on J10 (Mode 0) or
+*dedicated receive antenna on ALT RX J9 with Pure Signal feedback on J10 (Mode 2).
+You can [see information here](#rf-input-mode-switch)
 
 ## Update (April 22nd 2026): BCD Band Decoder 
 This feature allows the IO Board to drive external Low Pass Filters (LPF) for Solid State Power Amplifiers (SSPA) or automatic antenna switches based on band changes. You can [view table information](#bcd-output-logic-table) at the bottom of this page.
