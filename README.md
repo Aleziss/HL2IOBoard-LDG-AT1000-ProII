@@ -277,13 +277,13 @@ As an alternative to the physical switch, Out7 can be used to control the mode d
 
 ### Mode 0 - Normal HL2 RX (switch to GND)
 This is the standard HL2 operating mode. The receive signal comes from the ANT SMA connector on the HL2.
-The PURE signal input (J10) is mixed with the receive signal for linearity correction feedback.
+The PURE signal input on SMA connector (J10) is mixed with the receive signal for linearity correction feedback.
 The HL2 internal T/R relay K2 operates normally, switching between RX and TX automatically.
 
 ### Mode 2 - ALT RX with Pure Signal (switch to P4)
 This mode is designed for stations using a dedicated receive antenna.
 The receive signal comes from the ALT RX SMA connector (J9) on the IO Board instead of the HL2 ANT SMA connector.
-During TX, the PURE SMA connector signal input (J10) captures a sample of the transmitted signal and passes it to the HL2 for linearity correction (IMD reduction).
+During TX, the PURE signal input on SMA connector (J10) captures a sample of the transmitted signal and passes it to the HL2 for linearity correction (IMD reduction).
 The HL2 internal T/R relay K2 is held in RX position permanently — this is by design and has been confirmed safe by N2ADR (Jim Ahlstrom): the 5W TX signal is not passed to the HL2 RX chain, only negligible incidental pickup may occur.
 
 ### Summary
