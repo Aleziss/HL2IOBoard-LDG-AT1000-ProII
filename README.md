@@ -12,12 +12,17 @@ It enables control between the Hermes Lite 2 and the tuner radio port for automa
 * **Amplifier Control:** Integrated logic on J6 Out5 to protect both the tuner and the amplifier during tuning.
 * **Band Voltage:** Supports Yaesu FT-817 analog band voltage on J4 Out8.
 * **BCD Band Decoder:** 4-bit Yaesu-standard BCD output on J6/J4 Out1-4.
+* **RF Input Mode Control:** Option to run a dedicated receive antenna on ALT RX J9 SMA with adaptive predistortion sampling on PURE J10 SMA.
 
-This code is based on the original `n2adr_basic` firmware by Jim Ahlstrom N2ADR. BCD band decoding logic inspired by Dalton Williams (W5EIM) is used with original N2ADR logic control.
+This code is based on the original `n2adr_basic` firmware by Jim Ahlstrom N2ADR.
+BCD band decoding logic inspired by Dalton Williams (W5EIM) is used with original N2ADR logic control.
 Only `main.c` and `icom_ah4.c` have been modified.
 
-## 🆕 Update (April 22nd 2026): BCD Band Decoder 
-This new feature allows the IO Board to drive external Low Pass Filters (LPF) for Solid State Power Amplifiers (SSPA) or automatic antenna switches based on band changes. You can [view table information](#bcd-output-logic-table) at the bottom of this page.
+## 🆕 Update (April 26th 2026): RF Input Mode Control
+This new feature allows you to install a SPDT switch on J8 In5 to select between normal HL2 RX on ANT input with Pure Signal feedback on J10 (Mode 0) or dedicated receive antenna on ALT RX J9 with Pure Signal feedback on J10 (Mode 2).
+
+## Update (April 22nd 2026): BCD Band Decoder 
+This feature allows the IO Board to drive external Low Pass Filters (LPF) for Solid State Power Amplifiers (SSPA) or automatic antenna switches based on band changes. You can [view table information](#bcd-output-logic-table) at the bottom of this page.
 * **Standard Yaesu BCD Output:** Outputs 4-bit band data on **J6/J4 Out1-4**.
 
 ## Important Notes
@@ -234,11 +239,66 @@ This table shows the state of **Out 1-4** (available on both J4 & J6) for each b
 > * **Logic 1:** J4 outputs **+5V** / J6 switch is **Closed** (Path to GND).
 > * **Logic 0:** J4 outputs **0V** / J6 switch is **Open**.
 
+## RF Input Mode Switch
+
+A physical SPDT switch can be used to select between RF input mode 0 (normal HL2 RX on ANT SMA) and mode 2 (ALT RX on J9 SMA with adaptive predistortion sampling on PURE J10 SMA).
+
+### Wiring
+- Switch common (pin 1) → J8 pin 5 (In5 / GPIO06)
+- Switch position 1 (pin 3) → P4 (already has R31 4.7K pullup to +5V on the IO Board)
+- Switch position 2 (pin 2) → GND
+
+![](./assets/ALT_RX_mode_0-2.png)
+
+### Operation
+- **Switch to P4** → In5 sees +5V via R31 4.7K pullup → Mode 2 active
+- **Switch to GND** → In5 sees 0V → Mode 0 active
+
+### Notes
+- The 4.7K pullup resistor R31 on P4 is already populated on the IO Board — no additional resistor required
+- J8 inputs are protected and accept 3.3V to 20V logic levels (per N2ADR documentation)
+- This implementation is fully independent of Thetis and the HL2
+- Default state follows switch position at power-up — Mode 0 when switch is to GND, Mode 2 when switch is to P4
+
+### Optional Wiring (via Thetis)
+As an alternative to the physical switch, Out7 can be used to control the mode directly from Thetis.
+- Connect J4 Out7 to J8 In5
+- In Thetis, go to Setup → General → Options → HL2 Options panel, click o7 to switch between modes by checking "Pin Control"
+- o7 LOW (dark square) → 0V → Mode 0 → i5 LOW (dark square)
+- o7 HIGH (green square) → 5V → Mode 2 → i5 HIGH (green square)
+- With this method, mode 0 is always active at power-up since all outputs default to LOW when the HL2 starts
+- ⚠️ Use caution in Thetis — activating other outputs may interfere with BCD band decoder (Out1-4), amplifier control (Out5) or LDG tuner START line (Out6)
+
+![](./assets/ALT_RX_mode_0-2_J4.png)
+
+![](./assets/hl2_options.png)
+
+## RF Input Modes Explained
+
+### Mode 0 - Normal HL2 RX (switch to GND)
+This is the standard HL2 operating mode. The receive signal comes from the ANT SMA connector on the HL2.
+The PURE signal input (J10) is mixed with the receive signal for linearity correction feedback.
+The HL2 internal T/R relay K2 operates normally, switching between RX and TX automatically.
+
+### Mode 2 - ALT RX with Pure Signal (switch to P4)
+This mode is designed for stations using a dedicated receive antenna.
+The receive signal comes from the ALT RX SMA connector (J9) on the IO Board instead of the HL2 ANT SMA connector.
+During TX, the PURE SMA connector signal input (J10) captures a sample of the transmitted signal and passes it to the HL2 for linearity correction (IMD reduction).
+The HL2 internal T/R relay K2 is held in RX position permanently — this is by design and has been confirmed safe by N2ADR (Jim Ahlstrom): the 5W TX signal is not passed to the HL2 RX chain, only negligible incidental pickup may occur.
+
+### Summary
+| | Mode 0 | Mode 2 |
+|---|---|---|
+| RX input | HL2 ANT connector | ALT RX J9 (IO Board) |
+| Pure Signal (J10) | Mixed with RX | TX feedback only |
+| K2 T/R relay | Normal RX/TX switching | Fixed in RX position |
+| Dedicated RX antenna | No | Yes |
+
 ## Credits
 
 - Original IO Board firmware by Jim Ahlstrom N2ADR - https://github.com/jimahlstrom/HL2IOBoard
 - Thetis for Hermes Lite 2 by Reid Campbell MI0BOT - https://github.com/mi0bot/OpenHPSDR-Thetis
-- LDG AT-1000 Pro II with amp control code modifications by Claude Perreault VA2CST - 2026
+- LDG AT-1000 Pro II with amp control, BCD band decoder and ALT RX code modifications by Claude Perreault VA2CST - 2026
 
 ## License
 
