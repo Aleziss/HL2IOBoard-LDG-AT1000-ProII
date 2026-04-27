@@ -5,11 +5,12 @@
 // Modified by Claude Perreault, VA2CST - Copyright (c) 2026
 //   Changes: Added LDG AT-1000 Pro II antenna tuner support (firmware v1.7) and amplifier control on J6 Out5
 //	 Changes: Added Yaesu 4-bit binary-coded decimal signal (Data A, B, C, D) BCD band data on J4/6 Out1-4
-//	 BCD band decoding logic inspired by Dalton Williams (W5EIM) is used with original N2ADR logic control. 
+//	 BCD band decoding logic inspired by Dalton Williams (W5EIM) is used with original N2ADR logic control.
+//	 Changes: Added RF Input mode control via J8 In5 (GPIO06_In5) for ALT RX (J9) and Pure Signal (J10)
 //
-// This firmware outputs the FT817 band voltage on J4 pin 8, controls the LDG AT-1000 Pro II
-// antenna tuner via modified Icom AH-4 protocol, controls an external amplifier on J6 Out5
-// and BCD band data on J4/6 Out1-4
+// This firmware outputs the FT817 band voltage on J4 out8, controls the LDG AT-1000 Pro II
+// antenna tuner via modified Icom AH-4 protocol, controls an external amplifier on J6 Out5,
+// BCD band data on J4/6 Out1-4 and ALT RX/PURE SIGNAL control for 2nd receive antenna.
 
 #include "../hl2ioboard.h"
 #include "../i2c_registers.h"
@@ -62,6 +63,26 @@ int main()
 		}
 		else {
 			gpio_put(GPIO10_Out5, 1);		// TX normal - activate amplifier
+		}
+		// RF Input mode control via J8 In5 (GPIO06_In5)
+		// In5 LOW  = Mode 0 : Normal HL2 Rx input, Pure Signal at J10 mixed with Rx
+		// In5 HIGH = Mode 2 : ALT RX on J9 for Rx, Pure Signal at J10 for Tx
+		static bool current_rf_mode = false;	// false = mode 0, true = mode 2
+		static bool current_rf_is_rx = true;
+		bool rf_mode = gpio_get(GPIO06_In5);
+		if (rf_mode != current_rf_mode || (rf_mode && is_rx != current_rf_is_rx)) {
+			current_rf_mode = rf_mode;
+			current_rf_is_rx = is_rx;
+			if (!rf_mode) {		// Mode 0 - normal HL2 Rx input
+				gpio_put(GPIO03_INTTR, 0);
+				gpio_put(GPIO02_RF3, 0);
+			} else if (is_rx) {	// Mode 2 - Rx : ALT RX on J9
+				gpio_put(GPIO03_INTTR, 1);
+				gpio_put(GPIO02_RF3, 1);
+			} else {		// Mode 2 - Tx : Pure Signal at J10
+				gpio_put(GPIO03_INTTR, 1);
+				gpio_put(GPIO02_RF3, 0);
+			}
 		}
 		// Poll for a changed Tx frequency. The new_tx_fcode is set in the I2C handler.
 		if (current_tx_fcode != new_tx_fcode) {
