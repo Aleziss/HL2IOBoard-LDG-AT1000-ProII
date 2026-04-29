@@ -279,8 +279,9 @@ This table shows the state of **Out 1-4** (available on both J4 & J6) for each b
 ## RF Input Mode Switch
 
 A physical SPDT switch can be used to select between RF input
-* mode 0 (normal HL2 RX on ANT SMA connector) and
-* mode 2 (ALT RX on J9 SMA with adaptive predistortion sampling on PURE SMA connector J10 ).
+* mode 0 (normal HL2 RX on ANT SMA connector and
+* mode 2 (ALT RX on J9 SMA).
+* both mode with adaptive predistortion sampling on PURE SMA connector J10
 
 ## RF Input Modes Explained
 
