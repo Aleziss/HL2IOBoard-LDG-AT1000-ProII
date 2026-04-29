@@ -243,7 +243,7 @@ to V1.7 to restore radio port functionality.
 ---
 ## 📡 BCD Band Decoder
 
-## BCD Output Logic Table
+### BCD Output Logic Table
 
 This table shows the state of **Out 1-4** (available on both J4 & J6) for each band.
 
