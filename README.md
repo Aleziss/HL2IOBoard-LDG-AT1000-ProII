@@ -78,14 +78,14 @@ so this code won't work with your tuner if it uses that version.
 
 | Signal | IO Board Pin | Function |
 |-----------|----------|----------|
-| **START (Tuner)** | J6 pin 6 (GPIO22) | Start line to LDG (low-side switch) |
-| **KEY (Tuner)** | J8 pin 2 (GPIO18) | Key line from LDG (4.7K pull-up to P3) |
-| **Amplifier KEY** | J6 pin 5 (GPIO10) | Amplifier Interlock (Out5) |
-| **BCD Data A** | J4/J6 pin 4 (GPIO11) | Yaesu BCD Bit 0 (LSB) |
-| **BCD Data B** | J4/J6 pin 3 (GPIO20) | Yaesu BCD Bit 1 |
-| **BCD Data C** | J4/J6 pin 2 (GPIO19) | Yaesu BCD Bit 2 |
-| **BCD Data D** | J4/J6 pin 1 (GPIO16) | Yaesu BCD Bit 3 (MSB) |
-| **Band Voltage** | J4 pin 8 (GPIO26) | Yaesu FT-817 Analog Band Volts |
+| **START (Tuner)** | J6 pin 6 (GPIO22_Out6) | Start line to LDG (low-side switch) |
+| **KEY (Tuner)** | J8 pin 2 (GPIO18_In2) | Key line from LDG (4.7K pull-up to P3) |
+| **Amplifier KEY** | J6 pin 5 (GPIO10_Out5) | Amplifier Interlock (Out5) |
+| **BCD Data A** | J4/J6 pin 4 (GPIO11_Out4) | Yaesu BCD Bit 0 (LSB) |
+| **BCD Data B** | J4/J6 pin 3 (GPIO20_Out3) | Yaesu BCD Bit 1 |
+| **BCD Data C** | J4/J6 pin 2 (GPIO19_Out2) | Yaesu BCD Bit 2 |
+| **BCD Data D** | J4/J6 pin 1 (GPIO16_Out1) | Yaesu BCD Bit 3 (MSB) |
+| **Band Voltage** | J4 pin 8 (GPIO26_Out8) | Yaesu FT-817 Analog Band Volts |
 | **RF Input** | J8 pin 5 (GPIO06_In5)| Dedicated ALT RX antenna |
 | **GND** | G1, G2 or G3 | Shared Ground |
 
