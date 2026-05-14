@@ -219,7 +219,7 @@ You can see [HERE](https://youtu.be/ttHCVzRcAcU) a crude video demonstration of 
 
 ## Known Limitations
 
-### Thetis RF Timeout (v2.10.3.12 and .13)
+### Thetis-HL2 RF Timeout (v2.10.3.12, .13 and .14)
 Thetis seems to stop RF transmission after approximately 7-8 seconds during CTRL+TUN,
 regardless of the tuning state. This may prevent successful tuning if the LDG
 requires more time to complete the tuning sequence.
