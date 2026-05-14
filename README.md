@@ -61,7 +61,7 @@ You can [view table information](#bcd-output-logic-table).
 ## Important Notes
 
 - The LDG AT-1000 Pro II timing behavior differs from the standard Icom AH-4 protocol
-- Tested with Thetis v2.10.3.12 and .13 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
+- Tested with Thetis v2.10.3.12, .13 and .14 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
 - The HL2 alone (5W max) won't provide enough power for the LDG AT-1000 PRO II 
 - An external amplifier is required for the AT-1000 PRO II, 10-25 watts for effective tuning
 - AT-1000 PRO II with firmware V1.8 has disabled the METER and RADIO interface ports for safety reasons 
