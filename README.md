@@ -29,6 +29,7 @@ It enables control between the Hermes Lite 2 and the tuner radio port for automa
 
 **Key Features:**
 * **LDG Integration:** Control of the LDG AT-1000 Pro II via a modified Icom AH-4 protocol (Requires tuner firmware V1.7).
+   * Altough not tested, there are good chance that this code will also work with AT-100, 200 and 600 Pro II
 * **Amplifier Control:** Integrated interlock logic on J6 Out5 to protect both the tuner and the amplifier during tuning.
 * **Band Voltage:** Supports Yaesu FT-817 analog band voltage on J4 Out8.
 * **BCD Band Decoder:** 4-bit Yaesu-standard BCD output on J6/J4 Out1-4.
@@ -86,6 +87,7 @@ so this code won't work with your tuner if it uses that version.
 | **BCD Data D** | J4/J6 pin 1 (GPIO16) | Yaesu BCD Bit 3 (MSB) |
 | **Band Voltage** | J4 pin 8 (GPIO26) | Yaesu FT-817 Analog Band Volts |
 | **GND** | G1, G2 or G3 | Shared Ground |
+| **RF Input** | J5 pin 5 (GPIO06_In5)| Dedicated ALT RX antenna |
 
 ⚠️ **WARNING: Inductive loads on J6 Out5**
 If your amplifier uses relay coils on the KEY/PTT line, you MUST place a flyback diode 
@@ -120,12 +122,14 @@ If tuning fails (insufficient RF, antenna too far out of range, etc.), the LDG w
 abort and return to its previous state without any error indication to the IO Board.
 
 ### Thetis Power Settings
-- v2.10.3.12 : "Use Tune Slider" uses full drive power (0dB) with CTRL+TUN ❌
+Set value of "Use Fixed Drive" to achieve 10-25 watts output with CTRL+TUN for reliable LDG AT-1000 Pro II tuning in Setup → Transmit.
 
-✅ **Recommended: Use "Use Fixed Drive"** in Setup → Transmit → Tune and set a fixed 
-drive level to achieve 10-25 watts output for reliable LDG tuning.
+⚠️ v2.10.3.13/.14: If "Use Tune Slider" is selected while CTRL+TUN, it will now use "Use Fixed Drive" value instead of full power.
+   - If you use TUN only, "Use Tune Slider" level will be use.   
 
-- v2.10.3.13 : "Use Tune Slider" partially fixed - CTRL+TUN now uses "Use Fixed Drive" value instead of full power, but should ideally use the Tune Slider value ⚠️
+❌ v2.10.3.12 : If "Use Tune Slider" is selected with CTRL+TUN, **it will use full drive power (0dB)**.
+
+✅ Recommended: Select and use "Use Fixed Drive" value only. 
 
 ## Amplifier Control
 
