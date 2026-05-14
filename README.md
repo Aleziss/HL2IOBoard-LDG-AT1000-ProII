@@ -86,8 +86,8 @@ so this code won't work with your tuner if it uses that version.
 | **BCD Data C** | J4/J6 pin 2 (GPIO19) | Yaesu BCD Bit 2 |
 | **BCD Data D** | J4/J6 pin 1 (GPIO16) | Yaesu BCD Bit 3 (MSB) |
 | **Band Voltage** | J4 pin 8 (GPIO26) | Yaesu FT-817 Analog Band Volts |
+| **RF Input** | J8 pin 5 (GPIO06_In5)| Dedicated ALT RX antenna |
 | **GND** | G1, G2 or G3 | Shared Ground |
-| **RF Input** | J5 pin 5 (GPIO06_In5)| Dedicated ALT RX antenna |
 
 ⚠️ **WARNING: Inductive loads on J6 Out5**
 If your amplifier uses relay coils on the KEY/PTT line, you MUST place a flyback diode 
