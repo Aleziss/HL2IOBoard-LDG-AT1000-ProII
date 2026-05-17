@@ -296,13 +296,13 @@ A physical SPDT switch can be used to select between RF input
 
 ### RF Input Modes Explained
 
-### Mode 0 - Normal HL2 RX (switch to GND)
+#### Mode 0 - Normal HL2 RX (switch to GND)
 This is the standard HL2 operating mode.
 * The receive signal comes from the ANT SMA connector on the HL2.
 * The PURE signal input on SMA connector (J10) is mixed with the receive signal for linearity correction feedback.
 * The HL2 internal T/R relay K2 operates normally, switching between RX and TX automatically.
 
-### Mode 2 - ALT RX with Pure Signal (switch to P4)
+#### Mode 2 - ALT RX with Pure Signal (switch to P4)
 This mode is designed for stations using a dedicated receive antenna.
 * The receive signal comes from the ALT RX SMA connector (J9) on the IO Board instead of the HL2 ANT SMA connector.
 * During TX, the PURE signal input on SMA connector (J10) captures a sample of the transmitted signal and passes it to the HL2 for linearity correction (IMD reduction).
