@@ -260,6 +260,17 @@ This table shows the state of **Out 1-4** (available on both J4 & J6) for each b
 | **10m** | 1001 | **1** | 0 | 0 | **1** |
 | **6m** (not on HL2) | 1010 | **1** | 0 | **1** | 0 |
 
+### Wiring BCD
+
+| Signal | IO Board Pin | Function |
+|-----------|----------|----------|
+| **BCD Data A** | J4/J6 pin 4 (GPIO11_Out4) | Yaesu BCD Bit 0 (LSB) |
+| **BCD Data B** | J4/J6 pin 3 (GPIO20_Out3) | Yaesu BCD Bit 1 |
+| **BCD Data C** | J4/J6 pin 2 (GPIO19_Out2) | Yaesu BCD Bit 2 |
+| **BCD Data D** | J4/J6 pin 1 (GPIO16_Out1) | Yaesu BCD Bit 3 (MSB) |
+| **Band Voltage** | J4 pin 8 (GPIO26_Out8) | Yaesu FT-817 Analog Band Volts |
+| **GND** | G1, G2 or G3 | Shared Ground |
+
 ### Pin Mapping Reference
 
 | Signal | J4 (5V Logic) | J6 (Low-side Switch) | Pico GPIO |
@@ -272,17 +283,6 @@ This table shows the state of **Out 1-4** (available on both J4 & J6) for each b
 > **Operation Logic:**
 > * **Logic 1:** J4 outputs **+5V** / J6 switch is **Closed** (Path to GND).
 > * **Logic 0:** J4 outputs **0V** / J6 switch is **Open**.
-
-### Wiring BCD
-
-| Signal | IO Board Pin | Function |
-|-----------|----------|----------|
-| **BCD Data A** | J4/J6 pin 4 (GPIO11_Out4) | Yaesu BCD Bit 0 (LSB) |
-| **BCD Data B** | J4/J6 pin 3 (GPIO20_Out3) | Yaesu BCD Bit 1 |
-| **BCD Data C** | J4/J6 pin 2 (GPIO19_Out2) | Yaesu BCD Bit 2 |
-| **BCD Data D** | J4/J6 pin 1 (GPIO16_Out1) | Yaesu BCD Bit 3 (MSB) |
-| **Band Voltage** | J4 pin 8 (GPIO26_Out8) | Yaesu FT-817 Analog Band Volts |
-| **GND** | G1, G2 or G3 | Shared Ground |
 
 ---
 ## 🔀 RF Input Mode Control (ALT RX)
