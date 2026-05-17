@@ -7,7 +7,7 @@ LDG AT-1000 Pro II antenna tuner support for Hermes Lite 2 IO Board
 - TUNER Section
    - [Important Notes](#important-notes)
    - [Hardware Requirements](#hardware-requirements)
-   - [Wiring](#wiring)
+   - [Wiring](#wiring-tuner-and-amplifier)
    - [How It Works](#how-it-works)
    - [Amplifier Control](#amplifier-control)
    - [Installation](#installation)
@@ -17,9 +17,11 @@ LDG AT-1000 Pro II antenna tuner support for Hermes Lite 2 IO Board
    - [Known Limitations](#known-limitations)
 - BCD Band Decoder Section
    - [BCD Output Logic Table](#bcd-output-logic-table)
+   - [Wiring](#wiring-bcd)
 - ALT RX Section
    - [RF Input Modes Explained](#rf-input-modes-explained)
    - [RF Input Mode Switch](#rf-input-mode-switch)
+   - [Wiring](#wiring-rf-input)
 - [Credits](#credits)
 
 ## Description
@@ -58,7 +60,7 @@ You can [view table information](#bcd-output-logic-table).
 ---
 ## 🔧 LDG AT-1000 Pro II Tuner
 
-## Important Notes
+### Important Notes
 
 - The LDG AT-1000 Pro II timing behavior differs from the standard Icom AH-4 protocol
 - Tested with Thetis v2.10.3.12, .13 and .14 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
@@ -67,26 +69,20 @@ You can [view table information](#bcd-output-logic-table).
 - AT-1000 PRO II with firmware V1.8 has disabled the METER and RADIO interface ports for safety reasons 
 so this code won't work with your tuner if it uses that version.
 
-## Hardware Requirements
+### Hardware Requirements
 
 - Hermes Lite 2 with IO Board
 - LDG AT-1000 Pro II (firmware V1.7 or compatible)
 - Wire to solder from J8 pin 2 to P3 pull-up (4.7k 5V)
 - External 12V power supply for the LDG (DO NOT use IO Board 12V switched line)
 
-## Wiring
+### Wiring Tuner and Amplifier
 
 | Signal | IO Board Pin | Function |
 |-----------|----------|----------|
 | **START (Tuner)** | J6 pin 6 (GPIO22_Out6) | Start line to LDG (low-side switch) |
 | **KEY (Tuner)** | J8 pin 2 (GPIO18_In2) | Key line from LDG (4.7K pull-up to P3) |
 | **Amplifier KEY** | J6 pin 5 (GPIO10_Out5) | Amplifier Interlock (Out5) |
-| **BCD Data A** | J4/J6 pin 4 (GPIO11_Out4) | Yaesu BCD Bit 0 (LSB) |
-| **BCD Data B** | J4/J6 pin 3 (GPIO20_Out3) | Yaesu BCD Bit 1 |
-| **BCD Data C** | J4/J6 pin 2 (GPIO19_Out2) | Yaesu BCD Bit 2 |
-| **BCD Data D** | J4/J6 pin 1 (GPIO16_Out1) | Yaesu BCD Bit 3 (MSB) |
-| **Band Voltage** | J4 pin 8 (GPIO26_Out8) | Yaesu FT-817 Analog Band Volts |
-| **RF Input** | J8 pin 5 (GPIO06_In5)| Dedicated ALT RX antenna |
 | **GND** | G1, G2 or G3 | Shared Ground |
 
 ⚠️ **WARNING: Inductive loads on J6 Out5**
@@ -101,7 +97,7 @@ J4 is an active 5V output that will block the LDG tuner. Use J6 pin 6 (low-side 
 ⚠️ **WARNING: DO NOT power the LDG tuner from the IO Board 12V switched line** — use an 
 external 12V power supply only.
 
-## How It Works
+### How It Works
 
 The LDG AT-1000 Pro II behaves differently from the standard Icom AH-4 protocol:
 
@@ -131,7 +127,7 @@ Set value of "Use Fixed Drive" to achieve 10-25 watts output with CTRL+TUN for r
 
 ✅ Recommended: Select and use "Use Fixed Drive" value only. 
 
-## Amplifier Control
+### Amplifier Control
 
 Out5 (J6 pin 5) controls an external amplifier:
 - **Amplifier Interlock:** Automatically bypasses your amplifier during LDG tuning.
@@ -140,7 +136,7 @@ Out5 (J6 pin 5) controls an external amplifier:
 - **RX** → Out5 LOW (amplifier bypassed)
 - **During tuning** → Out5 LOW (amplifier bypassed)
 
-## Installation
+### Installation
 
 1. Download and install the [Hermes Lite 2 IO Board](https://github.com/jimahlstrom/HL2IOBoard) 
    project from Jim N2ADR
@@ -148,21 +144,21 @@ Out5 (J6 pin 5) controls an external amplifier:
 3. Replace `n2adr_lib/icom_ah4.c` with the `icom_ah4.c` from this repository
 4. Recompile the project and uplaod `main.uf2` from `n2adr_basic/build` to the Pico drive
 
-## Quick Install (no compilation required)
+### Quick Install (no compilation required)
 
 1. Power off the HL2
 2. Hold BOOTSEL button on Pico and connect USB cable to PC
 3. Copy `main.uf2` from this repository to the Pico drive
 4. Disconnect USB and power on the HL2
 
-## Thetis Operation and Settings
+### Thetis Operation and Settings
 
 - Use **CTRL+TUN** to start automatic tuning
 - For power level, use **Setup → Transmit → Tune → Use Fixed Drive**
 - Set fixed drive to achieve 10-25 watts output
 - Note: "Use Tune Slider" with CTRL+TUN may use full drive power (known issue)
 
-## Error Codes
+### Error Codes
 
 | Code | Description |
 |------|-------------|
@@ -171,7 +167,7 @@ Out5 (J6 pin 5) controls an external amplifier:
 | 0xFB | Timeout - KEY never went low after START released |
 | 0xFD | Safety timeout - tuning exceeded 15 seconds |
 
-## Example Setup (VA2CST)
+### Example Setup (VA2CST)
 
 This firmware was developed and tested with the following station setup:
 
@@ -189,7 +185,7 @@ protecting both the LDG tuner and the final amplifier from high SWR or over powe
 - **Tune mode (TUN)** → J6 Out5 grounded = both amplifiers in transmit mode, this allows to peak final amplifier at lower power
 - **Automatic Tuning (CTRL+TUN)** → Out5 floating = final amplifier bypassed, pre-drive only (10-25W for LDG tuning)
 
-## IO board wiring example (VA2CST)
+### IO board wiring example (VA2CST)
 ![](./assets/20260424_015018.jpg)
 
 Using 2.54mm male and female pin headers,
@@ -213,11 +209,11 @@ Simply connect P3 or P4 to J8 pin 2 with a short wire instead of adding an exter
 
 ![](./assets/20260424_014728.jpg)
 
-## YouTube Video Demonstration
+### YouTube Video Demonstration
 
 You can see [HERE](https://youtu.be/ttHCVzRcAcU) a crude video demonstration of the system working.
 
-## Known Limitations
+### Known Limitations
 
 ### Thetis-HL2 RF Timeout (v2.10.3.12, .13 and .14)
 Thetis seems to stop RF transmission after approximately 7-8 seconds during CTRL+TUN,
@@ -235,7 +231,7 @@ https://github.com/mi0bot/OpenHPSDR-Thetis/issues/127
 3. Hold "TUNE" on LDG tuner between >500ms and <2.5s, tuner will start up to 15s
 4. Once tune achieve, turn off TUN on Thetis software and reengage final amplifier on J6 Out5
 
-## LDG AT-1000 Pro II Firmware Compatibility
+### LDG AT-1000 Pro II Firmware Compatibility
 
 ⚠️ **Important:** This code requires LDG firmware version 1.7.
 LDG firmware version 1.8 disabled the METER and RADIO interface ports for safety reasons,
@@ -264,7 +260,7 @@ This table shows the state of **Out 1-4** (available on both J4 & J6) for each b
 | **10m** | 1001 | **1** | 0 | 0 | **1** |
 | **6m** (not on HL2) | 1010 | **1** | 0 | **1** | 0 |
 
-#### Pin Mapping Reference
+### Pin Mapping Reference
 
 | Signal | J4 (5V Logic) | J6 (Low-side Switch) | Pico GPIO |
 | :--- | :--- | :--- | :--- |
@@ -277,17 +273,28 @@ This table shows the state of **Out 1-4** (available on both J4 & J6) for each b
 > * **Logic 1:** J4 outputs **+5V** / J6 switch is **Closed** (Path to GND).
 > * **Logic 0:** J4 outputs **0V** / J6 switch is **Open**.
 
+### Wiring BCD
+
+| Signal | IO Board Pin | Function |
+|-----------|----------|----------|
+| **BCD Data A** | J4/J6 pin 4 (GPIO11_Out4) | Yaesu BCD Bit 0 (LSB) |
+| **BCD Data B** | J4/J6 pin 3 (GPIO20_Out3) | Yaesu BCD Bit 1 |
+| **BCD Data C** | J4/J6 pin 2 (GPIO19_Out2) | Yaesu BCD Bit 2 |
+| **BCD Data D** | J4/J6 pin 1 (GPIO16_Out1) | Yaesu BCD Bit 3 (MSB) |
+| **Band Voltage** | J4 pin 8 (GPIO26_Out8) | Yaesu FT-817 Analog Band Volts |
+| **GND** | G1, G2 or G3 | Shared Ground |
+
 ---
 ## 🔀 RF Input Mode Control (ALT RX)
 
-## RF Input Mode Switch
+### RF Input Mode Switch
 
 A physical SPDT switch can be used to select between RF input
 * mode 0 (normal HL2 RX on ANT SMA connector and
 * mode 2 (ALT RX on J9 SMA).
 * both mode with adaptive predistortion sampling on PURE SMA connector J10
 
-## RF Input Modes Explained
+### RF Input Modes Explained
 
 ### Mode 0 - Normal HL2 RX (switch to GND)
 This is the standard HL2 operating mode.
@@ -301,7 +308,13 @@ This mode is designed for stations using a dedicated receive antenna.
 * During TX, the PURE signal input on SMA connector (J10) captures a sample of the transmitted signal and passes it to the HL2 for linearity correction (IMD reduction).
 * The HL2 internal T/R relay K2 is held in RX position permanently — this is by design and has been confirmed safe by Jim Ahlstrom N2ADR: the 5W TX signal is not passed to the HL2 RX chain, only negligible incidental pickup may occur.
 
-### Wiring
+### Wiring RF Input
+
+| Signal | IO Board Pin | Function |
+|-----------|----------|----------|
+| **RF Input** | J8 pin 5 (GPIO06_In5)| Dedicated ALT RX antenna |
+| **GND** | G1, G2 or G3 | Shared Ground |
+
 - Switch common (pin 1) → J8 pin 5 (In5 / GPIO06)
 - Switch position 1 (pin 3) → P4 (already has R31 4.7K pullup to +5V on the IO Board)
 - Switch position 2 (pin 2) → GND
