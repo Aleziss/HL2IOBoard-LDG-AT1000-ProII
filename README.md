@@ -16,7 +16,8 @@ LDG AT-1000 Pro II antenna tuner support for Hermes Lite 2 IO Board
    - [Error Codes](#error-codes)
    - [Known Limitations](#known-limitations)
 - BCD Band Decoder Section
-   - [BCD Output Logic Table](#bcd-output-logic-table)
+   - [Decoder Behavior](#bcd-decoder-behavior)
+   - [Output Logic Table](#bcd-output-logic-table)
    - [Wiring](#wiring-bcd)
 - ALT RX Section
    - [RF Input Modes Explained](#rf-input-modes-explained)
@@ -252,6 +253,12 @@ to V1.7 to restore radio port functionality.
 ---
 ## 📡 BCD Band Decoder
 
+### BCD Decoder Behavior
+* The BCD outputs follow the **band selection or vfo changes** at all times (RX and TX) and remain active until the band/frequency changes.
+* To activate BCD outputs on **TX only**, uncomment the `else if (is_rx)` block in the firmware and recompile the code.
+* The BCD outputs are updated on every VFO or band change sent by Thetis via I2C.
+* **Known limitation:** If the HL2 is power cycled while Thetis remains open and connected, a VFO touch or band change in Thetis is required to resync the BCD decoder after reconnection.
+
 ### BCD Output Logic Table
 
 This table shows the state of **Out 1-4** (available on both J4 & J6) for each band.
@@ -292,12 +299,6 @@ This table shows the state of **Out 1-4** (available on both J4 & J6) for each b
 > **Operation Logic:**
 > * **Logic 1:** J4 outputs **+5V** / J6 switch is **Closed** (Path to GND).
 > * **Logic 0:** J4 outputs **0V** / J6 switch is **Open**.
-
-### BCD Decoder Behavior
-* The BCD outputs follow the **TX band** at all times (RX and TX) and remain active until the band changes.
-* To activate BCD outputs on **TX only**, uncomment the `else if (is_rx)` block in the firmware and recompile the code.
-* The BCD outputs are updated on every VFO or band change sent by Thetis via I2C.
-* **Known limitation:** If the HL2 is power cycled while Thetis remains open and connected, a VFO touch or band change in Thetis is required to resync the BCD decoder after reconnection.
 
 ---
 ## 🔀 RF Input Mode Control (ALT RX)
@@ -356,7 +357,9 @@ As an alternative to the physical switch, Out7 can be used to control the mode d
 - ⚠️ Use caution in Thetis — activating other outputs may interfere with
    - BCD band decoder (Out1-4)
    - amplifier control (Out5)
-   - LDG tuner START line (Out6)
+   - LDG tuner START line (Out6), bypassing/activating the tuner might occur
+   - Manually toggling outputs in Thetis may cause a temporary BCD desync —
+     a Thetis restart or band change is required to resync if this occurs
 
 ![](./assets/ALT_RX_mode_0-2_J4.png)
 
