@@ -284,6 +284,12 @@ This table shows the state of **Out 1-4** (available on both J4 & J6) for each b
 > * **Logic 1:** J4 outputs **+5V** / J6 switch is **Closed** (Path to GND).
 > * **Logic 0:** J4 outputs **0V** / J6 switch is **Open**.
 
+> **BCD Decoder Behavior:**
+> * The BCD outputs follow the **TX band** at all times (RX and TX) and remain active until the band changes.
+> * To activate BCD outputs on **TX only**, uncomment the `else if (is_rx)` block in the firmware.
+> * The BCD outputs are updated on every VFO or band change sent by Thetis via I2C.
+> * **Known limitation:** If the HL2 is power cycled while Thetis remains open and connected, a VFO touch or band change in Thetis is required to resync the BCD decoder after reconnection.
+
 ---
 ## 🔀 RF Input Mode Control (ALT RX)
 
