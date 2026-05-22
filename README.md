@@ -213,6 +213,8 @@ Simply connect P3 or P4 to J8 pin 2 with a short wire instead of adding an exter
 
 You can see [HERE](https://youtu.be/ttHCVzRcAcU) a crude video demonstration of the system working.
 
+⚠️In the video, you can see a pullup resistor being used on 3V2, that was during testing, you can use P3 instead for J8 in2 5V pullup already integrated to the io board.
+
 ### Known Limitations
 
 ### Thetis-HL2 RF Timeout (v2.10.3.12, .13 and .14)
@@ -230,6 +232,13 @@ https://github.com/mi0bot/OpenHPSDR-Thetis/issues/127
 2. Hit TUN on Thetis, this should provide 10-25W for unlimited time
 3. Hold "TUNE" on LDG tuner between >500ms and <2.5s, tuner will start up to 15s
 4. Once tune achieve, turn off TUN on Thetis software and reengage final amplifier on J6 Out5
+
+### LDG TUNE button cannot trigger Thetis RF transmission
+* The LDG AT-1000 Pro II TUNE button (held >500ms) pulls KEY low to request RF, identical to the sequence initiated by CTRL+TUN in Thetis.
+* The Pico can detect KEY going LOW and can trigger the full tuning sequence including START (Out6), but Thetis will not transmit RF unless it has itself initiated the tuning request via CTRL+TUN.
+* Writing 0xEE directly to REG_ANTENNA_TUNER from the Pico does not trigger RF transmission in Thetis.
+* Writing 1 to REG_ANTENNA_TUNER from the Pico and letting the full sequence run (START 600ms, KEY LOW, 0xEE) also does not trigger RF transmission in Thetis.
+* Conclusion: Thetis internally verifies that it initiated the tuning request before responding to 0xEE. This behavior cannot be changed from the Pico firmware side and would require a modification to Thetis.
 
 ### LDG AT-1000 Pro II Firmware Compatibility
 
@@ -284,11 +293,11 @@ This table shows the state of **Out 1-4** (available on both J4 & J6) for each b
 > * **Logic 1:** J4 outputs **+5V** / J6 switch is **Closed** (Path to GND).
 > * **Logic 0:** J4 outputs **0V** / J6 switch is **Open**.
 
-> **BCD Decoder Behavior:**
-> * The BCD outputs follow the **TX band** at all times (RX and TX) and remain active until the band changes.
-> * To activate BCD outputs on **TX only**, uncomment the `else if (is_rx)` block in the firmware.
-> * The BCD outputs are updated on every VFO or band change sent by Thetis via I2C.
-> * **Known limitation:** If the HL2 is power cycled while Thetis remains open and connected, a VFO touch or band change in Thetis is required to resync the BCD decoder after reconnection.
+### BCD Decoder Behavior
+* The BCD outputs follow the **TX band** at all times (RX and TX) and remain active until the band changes.
+* To activate BCD outputs on **TX only**, uncomment the `else if (is_rx)` block in the firmware and recompile the code.
+* The BCD outputs are updated on every VFO or band change sent by Thetis via I2C.
+* **Known limitation:** If the HL2 is power cycled while Thetis remains open and connected, a VFO touch or band change in Thetis is required to resync the BCD decoder after reconnection.
 
 ---
 ## 🔀 RF Input Mode Control (ALT RX)
