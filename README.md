@@ -32,7 +32,8 @@ It enables control between the Hermes Lite 2 and the tuner radio port for automa
 
 **Key Features:**
 * **LDG Integration:** Control of the LDG AT-1000 Pro II via a modified Icom AH-4 protocol (Requires tuner firmware V1.7).
-   * Altough not tested, there are good chance that this code will also work with AT-100, 200 and 600 Pro II
+   * There are good chance that this code will also work with AT-100, 200 and 600 Pro II
+   * Reports that AT-100 Pro II is working with this code
    * Reports that N7DDC ATU-100 is working with this code
 * **Amplifier Control:** Integrated interlock logic on J6 Out5 to protect both the tuner and the amplifier during tuning.
 * **Band Voltage:** Supports Yaesu FT-817 analog band voltage on J4 Out8.
