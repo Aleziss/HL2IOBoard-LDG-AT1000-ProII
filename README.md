@@ -51,7 +51,7 @@ Only `main.c` and `icom_ah4.c` have been modified.
 * modification to timeout from 15s to 20s on icom_ah4.c
    * publish new updated files to repo   
 * added [Thetis fix and mods](#thetis-modifications)
-* updated picutre for wiring example
+* updated picture for wiring example
 * modified some paraghaphs in this documentation
 
 ### (April 26th 2026): RF Input Mode Control
@@ -178,7 +178,7 @@ Set value of "Use Fixed Drive" to achieve 10-25 watts output with CTRL+TUN for r
 | 0x00 | Success |
 | 0xFA | KEY not high at start - check wiring and pull-up resistor |
 | 0xFB | Timeout - KEY never went low after START released |
-| 0xFD | Safety timeout - tuning exceeded 15 seconds |
+| 0xFD | Safety timeout - tuning exceeded 20 seconds |
 
 ## Example Setup (VA2CST)
 
