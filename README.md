@@ -15,6 +15,7 @@ LDG AT-1000 Pro II antenna tuner support for Hermes Lite 2 IO Board
    - [Thetis Operation and Settings](#thetis-operation-and-settings)
    - [Error Codes](#error-codes)
    - [Known Limitations](#known-limitations)
+      - [Thetis fix and mods](#thetis-modifications) 
 - BCD Band Decoder Section
    - [Decoder Behavior](#bcd-decoder-behavior)
    - [Output Logic Table](#bcd-output-logic-table)
@@ -44,14 +45,23 @@ This code is based on the original `n2adr_basic` firmware by Jim Ahlstrom N2ADR.
 BCD band decoding logic inspired by Dalton Williams (W5EIM) is used with original N2ADR logic control.
 Only `main.c` and `icom_ah4.c` have been modified.
 
-## 🆕 Update (April 26th 2026): RF Input Mode Control
+## Updates
+
+### 🆕 (May 28th 2026): Timeout and Thetis mods
+* modification to timeout from 15s to 20s on icom_ah4.c
+   * publish new updated files to repo   
+* added [Thetis fix and mods](#thetis-modifications)
+* updated picutre for wiring example
+* modified some paraghaphs in this documentation
+
+### (April 26th 2026): RF Input Mode Control
 This new feature allows you to install a SPDT switch on J8 In5 to select between
 * normal HL2 RX on ANT input with Pure Signal feedback on J10 (Mode 0) or
 * dedicated receive antenna on ALT RX J9 with Pure Signal feedback on J10 (Mode 2).
 
 You can [view information here](#rf-input-mode-switch).
 
-## Update (April 22nd 2026): BCD Band Decoder 
+### Update (April 22nd 2026): BCD Band Decoder 
 This feature allows the IO Board to drive
 * external Low Pass Filters (LPF) for Solid State Power Amplifiers (SSPA)
 * band change control on amplifiers
@@ -63,7 +73,7 @@ You can [view table information](#bcd-output-logic-table).
 ---
 ## 🔧 LDG AT-1000 Pro II Tuner
 
-### Important Notes
+## Important Notes
 
 - The LDG AT-1000 Pro II timing behavior differs from the standard Icom AH-4 protocol
 - Tested with Thetis v2.10.3.12, .13 and .14 for Hermes Lite 2 by MI0BOT (Reid), known issues documented below
@@ -72,14 +82,14 @@ You can [view table information](#bcd-output-logic-table).
 - AT-1000 PRO II with firmware V1.8 has disabled the METER and RADIO interface ports for safety reasons 
 so this code won't work with your tuner if it uses that version.
 
-### Hardware Requirements
+## Hardware Requirements
 
 - Hermes Lite 2 with IO Board
 - LDG AT-1000 Pro II (firmware V1.7 or compatible)
 - Wire to solder from J8 pin 2 to P3 pull-up (4.7k 5V)
 - External 12V power supply for the LDG (DO NOT use IO Board 12V switched line)
 
-### Wiring Tuner and Amplifier
+## Wiring Tuner and Amplifier
 
 | Signal | IO Board Pin | Function |
 |-----------|----------|----------|
@@ -100,7 +110,7 @@ J4 is an active 5V output that will block the LDG tuner. Use J6 pin 6 (low-side 
 ⚠️ **WARNING: DO NOT power the LDG tuner from the IO Board 12V switched line** — use an 
 external 12V power supply only.
 
-### How It Works
+## How It Works
 
 The LDG AT-1000 Pro II behaves differently from the standard Icom AH-4 protocol:
 
@@ -120,6 +130,37 @@ KEY returns high and the IO Board stops RF transmission (returns 0x00).
 If tuning fails (insufficient RF, antenna too far out of range, etc.), the LDG will simply
 abort and return to its previous state without any error indication to the IO Board.
 
+## Amplifier Control
+
+Out5 (J6 pin 5) controls an external amplifier:
+- **Amplifier Interlock:** Automatically bypasses your amplifier during LDG tuning.
+- **Safety Feature:** The amplifier remains bypassed after tuning until HL2 returns to RX mode once. This prevents "hot-switching" and protects your tuner's relays.
+- **TX normal** → Out5 HIGH (amplifier active)
+- **RX** → Out5 LOW (amplifier bypassed)
+- **During tuning** → Out5 LOW (amplifier bypassed)
+
+## Installation
+
+1. Download and install the [Hermes Lite 2 IO Board](https://github.com/jimahlstrom/HL2IOBoard) 
+   project from Jim N2ADR
+2. Replace `n2adr_basic/main.c` with the `main.c` from this repository
+3. Replace `n2adr_lib/icom_ah4.c` with the `icom_ah4.c` from this repository
+4. Recompile the project and uplaod `main.uf2` from `n2adr_basic/build` to the Pico drive
+
+## Quick Install (no compilation required)
+
+1. Power off the HL2
+2. Hold BOOTSEL button on Pico and connect USB cable to PC
+3. Copy `main.uf2` from this repository to the Pico drive
+4. Disconnect USB and power on the HL2
+
+## Thetis Operation and Settings
+
+- Use **CTRL+TUN** to start automatic tuning
+- For power level, use **Setup → Transmit → Tune → Use Fixed Drive**
+- Set fixed drive to achieve 10-25 watts output
+- Note: "Use Tune Slider" with CTRL+TUN may use full drive power (known issue)
+
 ### Thetis Power Settings
 Set value of "Use Fixed Drive" to achieve 10-25 watts output with CTRL+TUN for reliable LDG AT-1000 Pro II tuning in Setup → Transmit.
 
@@ -130,38 +171,7 @@ Set value of "Use Fixed Drive" to achieve 10-25 watts output with CTRL+TUN for r
 
 ✅ Recommended: Select and use "Use Fixed Drive" value only. 
 
-### Amplifier Control
-
-Out5 (J6 pin 5) controls an external amplifier:
-- **Amplifier Interlock:** Automatically bypasses your amplifier during LDG tuning.
-- **Safety Feature:** The amplifier remains bypassed after tuning until HL2 returns to RX mode once. This prevents "hot-switching" and protects your tuner's relays.
-- **TX normal** → Out5 HIGH (amplifier active)
-- **RX** → Out5 LOW (amplifier bypassed)
-- **During tuning** → Out5 LOW (amplifier bypassed)
-
-### Installation
-
-1. Download and install the [Hermes Lite 2 IO Board](https://github.com/jimahlstrom/HL2IOBoard) 
-   project from Jim N2ADR
-2. Replace `n2adr_basic/main.c` with the `main.c` from this repository
-3. Replace `n2adr_lib/icom_ah4.c` with the `icom_ah4.c` from this repository
-4. Recompile the project and uplaod `main.uf2` from `n2adr_basic/build` to the Pico drive
-
-### Quick Install (no compilation required)
-
-1. Power off the HL2
-2. Hold BOOTSEL button on Pico and connect USB cable to PC
-3. Copy `main.uf2` from this repository to the Pico drive
-4. Disconnect USB and power on the HL2
-
-### Thetis Operation and Settings
-
-- Use **CTRL+TUN** to start automatic tuning
-- For power level, use **Setup → Transmit → Tune → Use Fixed Drive**
-- Set fixed drive to achieve 10-25 watts output
-- Note: "Use Tune Slider" with CTRL+TUN may use full drive power (known issue)
-
-### Error Codes
+## Error Codes
 
 | Code | Description |
 |------|-------------|
@@ -170,7 +180,7 @@ Out5 (J6 pin 5) controls an external amplifier:
 | 0xFB | Timeout - KEY never went low after START released |
 | 0xFD | Safety timeout - tuning exceeded 15 seconds |
 
-### Example Setup (VA2CST)
+## Example Setup (VA2CST)
 
 This firmware was developed and tested with the following station setup:
 
@@ -189,13 +199,14 @@ protecting both the LDG tuner and the final amplifier from high SWR or over powe
 - **Automatic Tuning (CTRL+TUN)** → Out5 floating = final amplifier bypassed, pre-drive only (10-25W for LDG tuning)
 
 ### IO board wiring example (VA2CST)
-![](./assets/20260424_015018.jpg)
+![](./assets/20260528_234935.jpg)
 
 Using 2.54mm male and female pin headers,
 - Yellow wire - J8 pin 2 (KEY line) with pull up resistor to 4.7k 5V (P3) → J7 pin 2 (DB9)
-- Orange wire - J6 pin 6 (START line) → J7 pin 3 (DB9)
-- Red wire - J6 pin 5 (amplifier KEY) → J7 pin 7 (DB9)
+- Blue wire - J6 pin 6 (START line) → J7 pin 3 (DB9)
+- Green wire - J6 pin 5 (amplifier KEY) → J7 pin 7 (DB9)
 - Black wire - G1 (GND) → J7 pin 5 (DB9), GND shared for tuner and amplifier on DB9 connector
+- Orange wire - J8 pin 5 (ALT RX) → J4 pin 7 (see documentation below)
 
 For J7 (DB9) you can chose whatever pin number order you like for your project.
 On my end, I kept the RS232 pins numbers (even though it is NOT a serial communication port) being:
@@ -216,9 +227,10 @@ Simply connect P3 or P4 to J8 pin 2 with a short wire instead of adding an exter
 
 You can see [HERE](https://youtu.be/ttHCVzRcAcU) a crude video demonstration of the system working.
 
-⚠️In the video, you can see a pullup resistor being used on 3V2, that was during testing, you can use P3 instead for J8 in2 5V pullup already integrated to the io board.
+> [!NOTE]
+> In the video, you can see a pullup resistor being used on 3V2, that was during testing, you can use P3 instead for J8 in2 5V pullup already integrated to the io board.
 
-### Known Limitations
+## Known Limitations
 
 ### Thetis-HL2 RF Timeout (v2.10.3.12, .13 and .14)
 Thetis seems to stop RF transmission after approximately 7-8 seconds during CTRL+TUN,
@@ -243,11 +255,27 @@ https://github.com/mi0bot/OpenHPSDR-Thetis/issues/127
 * Writing 1 to REG_ANTENNA_TUNER from the Pico and letting the full sequence run (START 600ms, KEY LOW, 0xEE) also does not trigger RF transmission in Thetis.
 * Conclusion: Thetis internally verifies that it initiated the tuning request before responding to 0xEE. This behavior cannot be changed from the Pico firmware side and would require a modification to Thetis.
 
+### Thetis Modifications
+
+I have been able to modifiy Thetis to support the following:
+- Extended ATU timeout (~20 seconds instead of ~8 seconds)
+- Hardware TUNE button support (without requiring CTRL+TUN in Thetis)
+
+To resolve these limitations, a modified `Thetis.exe` binary, 
+the modified `console.cs` source file, and recompilation 
+instructions are available at:
+**[OpenHPSDR-Thetis-HL2-Mods](https://github.com/Aleziss/OpenHPSDR-Thetis-HL2-Mods)**
+
+> [!NOTE]
+> Without these Thetis modifications, the hardware TUNE button 
+> will not work and tuning sequences may be cut short prematurely.
+
 ### LDG AT-1000 Pro II Firmware Compatibility
 
-⚠️ **Important:** This code requires LDG firmware version 1.7.
-LDG firmware version 1.8 disabled the METER and RADIO interface ports for safety reasons,
-but LDG has since released firmware V1.7 which restores these ports.
+> [!IMPORTANT]
+> This code requires LDG firmware version 1.7.
+> LDG firmware version 1.8 disabled the METER and RADIO interface ports for safety reasons,
+> but LDG has since released firmware V1.7 which restores these ports.
 
 **Current firmware is V1.7** - if you have V1.8 installed, contact LDG to downgrade 
 to V1.7 to restore radio port functionality.
